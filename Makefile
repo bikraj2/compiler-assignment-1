@@ -1,0 +1,7 @@
+compile:
+	lex lexer.l 
+	yacc -d parser.y 
+	gcc -o out lex.yy.c y.tab.c -ll  
+clean:
+	rm out y.tab.c y.tab.h
+
