@@ -10,7 +10,15 @@ Make File to Easily Build Run Clean
 - To Clean
     `make Clean`
 --- 
-TODO [makefile]:
-- Add Support for system based compilation
+TODO :
+    **MAKEFILE**
+        - Add Support for system based compilation
+    **Syntax Analyzer**
+        - Complete Grammar
 
+
+Note:
+ `.\out` -> To run the program
+Also while killing process using Ctrl-c , press y to exit the program.
+ 
 Copyright (c) 2024 Bikraj2 Nigam . All Rights Reserved.
