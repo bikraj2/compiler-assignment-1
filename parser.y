@@ -24,7 +24,36 @@ int addtoken(char *s, char *token_value);
 %token LEFT_PAREN RIGHT_PAREN LEFT_CURLY_BRACE RIGHT_CURLY_BRACE LEFT_BRACE RIGHT_BRACE
 %token SINGLE_LINE_COMMENT RIGHT_ANGLE LEFT_ANGLE SET LOOP FINALLY PRINT FUNC 
 %%
-input:
+PROGRAM : STATEMENT |PROGRAM STATEMENT;
+STATEMENT: SET_STATEMENT
+            | DEC_STATEMENT 
+            | ASSGN_STATEMENT 
+            | PUSH_POP_STATEMENT 
+            | CONDITIONAL_STATEMENT
+            | LOOP_STATEMENT
+            | FUNC
+            | RETURN_STATEMENT
+            | PRINT_STATEMENT
+            ;
+SET_TYPE: INT 
+            |FLOAT
+            ;
+VEC_TYPE:LEFT_BRACE SET_TYPE RIGHT_BRACE ;
+MIX_TYPE: SET_TYPE|VEC_TYPE;
+TYPE : SET_TYPE 
+        | VEC_TYPE 
+        | LEFT_CURLY_BRACE SET_TYPE ':' MIX_TYPE RIGHT_CURLY_BRACE
+        ;     
+SET_SIZE: BIG
+            |SMALL
+            ;
+SET_STATEMENT: SET SET_TYPE SET_SIZE;
+VAR_TYPE: INTEGER | DOUBLE;
+DEC_CONDITION: ASSIGN VAR_TYPE 
+                   | ;
+DEC_STATEMENT: TYPE DEC_CONDITION ;
+
+/* input:
     | input statement
     ;
 
@@ -87,7 +116,7 @@ statement:
     | RIGHT_ANGLE{ printf("RIGHT_ANGLE\n");}
     | LEFT_ANGLE{ printf("LEFT_ANGLE\n");}
     | SINGLE_LINE_COMMENT { printf("SINGLE_LINE_COMMENT\n"); }
-    ;
+    ; */
 %%
 struct token {
     char *token;
