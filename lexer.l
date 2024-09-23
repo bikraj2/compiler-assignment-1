@@ -65,8 +65,7 @@ not { return NOT;}
 ! { return COMPLEMENT;}
 
 "#".*\n            { return SINGLE_LINE_COMMENT ;};
-[ \t]+ {  /* Ignore whitespace */ }
-[;\n] {return EOL;}
+[ \t]+ {  /* Ignore whitespace */ } {/* [;\n] {return EOL;} */}
 (_)*({alphabet})({alphabet}|{number}|(_))*  { return VAR;}
 
 .  {};
