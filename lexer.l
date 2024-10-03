@@ -12,7 +12,7 @@ number    [0-9]
 [0-9]+ {  yylval.intval= atoi(yytext); return INTEGER; };
 ([0-9]+\.[0-9]+) { yylval.floatval= atof(yytext); return DOUBLE;};
 
-int { return INT;};
+int { return INT;}; 
 float { return FLOAT;};
 big {return BIG;}
 small { return SMALL;}
@@ -52,21 +52,21 @@ or { return OR;}
 and { return AND;}
 not { return NOT;}
 
-\^ { return POW_OP;}
+\^ { return POW_OP;}/*Power operator will have a return type double*/
 \| { return BIT_OR;}
 & { return BIT_AND;}
 ~ { return BIT_NOT;}
 
-\< { return LESS_THAN;}
 \<= { return LESS_THAN_EQ;}
-\> { return GREAT_THAN;}
 \>= { return GREAT_THAN_EQ;}
 \<\> { return NOT_EQ;}
+\=== { return EQUAL_TO;}
 ! { return COMPLEMENT;}
 
 "#".*\n            { return SINGLE_LINE_COMMENT ;};
-[ \t]+ {  /* Ignore whitespace */ } {/* [;\n] {return EOL;} */}
-(_)*({alphabet})({alphabet}|{number}|(_))*  { return VAR;}
+[ \t]+ {  /* Ignore whitespace */ } {/* [\n] {return EOL;} */}
+; { return SEMI;}
+(_)*({alphabet})({alphabet}|{number}|(_))*  { return VAR;}/*variable name can start with "_"provided that the first character after "_" is a alphabet not a number*/
 
 .  {};
 %%

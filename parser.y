@@ -1,5 +1,4 @@
-%{
-#include <stdio.h>
+%{ #include <stdio.h>
 #include <stdbool.h>
 #include <signal.h>
 #include <string.h>
@@ -18,27 +17,28 @@ int addtoken(char *s, char *token_value);
 %token <floatval> DOUBLE
 %token INT FLOAT BIG SMALL IF ELSE RETURN
 %token ADD_OP SUB_OP DIV_OP MULT_OP POW_OP MOD_OP ASSIGN COMP_ASSIGN_ADD
-%token LESS_THAN LESS_THAN_EQ GREAT_THAN GREAT_THAN_EQ NOT_EQ COMPLEMENT
+%token LESS_THAN LESS_THAN_EQ GREAT_THAN GREAT_THAN_EQ NOT_EQ COMPLEMENT EQUAL_TO
 %token OR AND NOT BIT_OR BIT_AND BIT_NOT
-%token VAR TERNARY COLON RIGHT_ACCESS LEFT_ACCESS EOL
+%token VAR TERNARY COLON SEMI RIGHT_ACCESS LEFT_ACCESS  
 %token LEFT_PAREN RIGHT_PAREN LEFT_CURLY_BRACE RIGHT_CURLY_BRACE LEFT_BRACE RIGHT_BRACE
 %token SINGLE_LINE_COMMENT RIGHT_ANGLE LEFT_ANGLE SET LOOP FINALLY PRINT FUNC 
 %%
 PROGRAM : STATEMENT |PROGRAM STATEMENT;
 STATEMENT: SET_STATEMENT
-            | DEC_STATEMENT 
-            | ASSGN_STATEMENT 
+            | DEC_STATEMENT  SEMI {printf("DEC_STATEMENT");}
+            | EXPRESSION SEMI
+            | ASSGN_STATEMENT  SEMI
+            | LOOP_STATEMENT 
             /* | PUSH_POP_STATEMENT 
             | CONDITIONAL_STATEMENT
-            | LOOP_STATEMENT
             | FUNC
             | RETURN_STATEMENT */
-            | PRINT_STATEMENT
+            | PRINT_STATEMENT SEMI
             ;
 SET_TYPE: INT 
             |FLOAT
             ;
-VEC_TYPE:LEFT_BRACE SET_TYPE RIGHT_BRACE ; {/*The conflict is here*/}
+VEC_TYPE:LEFT_BRACE SET_TYPE RIGHT_BRACE ;
 MIX_TYPE: SET_TYPE|VEC_TYPE;
 TYPE : SET_TYPE 
         | VEC_TYPE 
@@ -47,34 +47,67 @@ TYPE : SET_TYPE
 SET_SIZE: BIG
             |SMALL
             ;
+
 SET_STATEMENT: SET SET_TYPE SET_SIZE;
 VAR_TYPE: INTEGER | DOUBLE;
 DEC_CONDITION: ASSIGN VAR_TYPE 
-                   | ;
-DEC_STATEMENT: TYPE DEC_CONDITION ;
-ASSGN_STATEMENT: VAR ASSIGN EXPR;
-EXPR: EXPR ADD_OP TERM
-        | EXPR SUB_OP TERM
-        |TERM
-        {printf("Hello")};
-TERM : TERM MULT_OP FACTOR
-        | TERM DIV_OP FACTOR
-        | TERM MOD_OP FACTOR
-        | FACTOR
+             | ;
+
+DEC_STATEMENT: TYPE VAR DEC_CONDITION ;
+ASSGN_STATEMENT: VAR ASSIGN EXPRESSION;
+
+
+LOOP_STATEMENT : LOOP LEFT_PAREN DEC_STATEMENT SEMI BOOLEAN_EXP SEMI ASSGN_STATEMENT RIGHT_PAREN
+
+EXPRESSION : BOOLEAN_EXP  {printf("Relations here\n");}
+           ;
+ARITHMETIC_EXP : ARITHMETIC_EXP ADD_OP  MUL_EXP  {printf("ARITHMETIC_EXP");}
+               | ARITHMETIC_EXP SUB_OP MUL_EXP 
+               | MUL_EXP 
+	            ;
+
+MUL_EXP : MUL_EXP MULT_OP  POW_EXP 
+        | MUL_EXP DIV_OP POW_EXP
+        | POW_EXP  
         ;
+
+POW_EXP : POW_EXP POW_OP PRIMARY_EXP 
+        | PRIMARY_EXP 
+        ;
+
+PRIMARY_EXP  : LEFT_PAREN EXPRESSION RIGHT_PAREN 
+             | FACTOR 
+             ; 
+
+BOOLEAN_EXP : BOOLEAN_EXP AND RELATIONAL_EXP {}
+            | BOOLEAN_EXP OR RELATIONAL_EXP
+            | RELATIONAL_EXP 
+            ;
+RELATIONAL_EXP : RELATIONAL_EXP COMP_OP ARITHMETIC_EXP 
+               | ARITHMETIC_EXP  
+              ;
 ACCES_VAL: INTEGER | VAR;
+
 REF_TYPE: LEFT_BRACE  ACCES_VAL RIGHT_BRACE {/*The conflict is here*/}
             | LEFT_PAREN RIGHT_PAREN
             | 
             ;
-FACTOR: LEFT_PAREN EXPR RIGHT_PAREN
-        | VAR REF_TYPE
-        |INTEGER
-        ;
+
+FACTOR: DOUBLE 
+      | INTEGER
+      | VAR
+      ;
+
 PRINTABLE: VAR_TYPE | VAR;
+
 PRINT_STATEMENT: PRINT LEFT_PAREN PRINTABLE RIGHT_PAREN ;
 
+COMP_OP : LEFT_ANGLE | RIGHT_ANGLE| GREAT_THAN_EQ | LESS_THAN_EQ | NOT_EQ | EQUAL_TO 
+        ;
+
+
 /* input:
+
     | input statement
     ;
 
@@ -151,18 +184,18 @@ int addtoken(char *token, char *token_value) {
     struct token *curr_token;
     curr_token = (struct token *)malloc(sizeof(struct token));
     if (curr_token == NULL) {
-        perror("Failed to allocate memory for token.\n");
+        perror("Token Memory allocation Failed.\n");
         return -1;
     }
     curr_token->token = (char *)malloc(strlen(token) + 1);
     if (curr_token->token == NULL) {
-        perror("Failed to allocate memory for token name.\n");
+        perror("Token_name memory allocation failed\n");
         free(curr_token);
         return -1;
     }
     curr_token->token_value = (char *)malloc(strlen(token_value) + 1);
     if (curr_token->token_value == NULL) {
-        perror("Failed to allocate memory for token_value");
+        perror("Token_value Memory allocation Failed");
         free(curr_token->token);
         free(curr_token);
         return -1;
@@ -183,7 +216,7 @@ int addtoken(char *token, char *token_value) {
     return 1;
 }
 
-void printall() {
+void printall() { /*Printing out all token lists*/
     struct token *current = token_list;
     while (current != NULL) {
         if (strcmp(current->token, "EOL") == 0) {
@@ -201,7 +234,7 @@ void printall() {
 }
 
 void yyerror(char *s) {
-    printf("%s\n", s);
+    printf("%s\n", s);/*Procedure to print out the error message...*/
 }
 
 // Free dynamically allocated memory
@@ -209,7 +242,7 @@ void free_token_list() {
     struct token *current = token_list;
     struct token *next;
     
-    printf("Freeing memory...\n");
+    printf("Freeing Tokens memory...\n");
     while (current != NULL) {
 
       printf(".");
@@ -219,17 +252,18 @@ void free_token_list() {
         free(current);
         current = next;
     }
-    printf("\nMemory Freed<---->\n");
+    printf("\nToken Memory Freed<---->\n");
     token_list = NULL;
 }
 
-extern FILE *yyin;
+//extern FILE *yyin;
 
 int main(int argc, char **argv) {
 
     signal(SIGINT,INThandler);
+    while(1) {
     yyparse();
-    
+    }
     return 0;
 }
 
@@ -240,7 +274,7 @@ char c;
 
   // Catching the signal
   signal(sig,SIG_IGN);
-  printf("\nDid you hit Crtl-c?\n (Y/N)\n");
+  printf("\nDid you hit (Crtl-c)?\n Are you sure you want to close this program ? (Y/N)\n");
 c  = getchar();
 if (c=='y'||c=='Y') {
   free_token_list();
@@ -249,4 +283,4 @@ if (c=='y'||c=='Y') {
 signal(SIGINT,INThandler);
 getchar();
 }
-}
+} 
