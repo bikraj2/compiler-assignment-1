@@ -25,8 +25,8 @@ small { return SMALL;}
 \]  {return RIGHT_BRACE;}
 : { return COLON;}
 \? { return TERNARY;}
-\< { return RIGHT_ANGLE;}
-\> { return LEFT_ANGLE;}
+\< { return LEFT_ANGLE;}
+\> { return RIGHT_ANGLE;}
 
 if { return IF;};
 else { return ELSE;};

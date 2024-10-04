@@ -1,4 +1,5 @@
-%{ #include <stdio.h>
+%{
+#include <stdio.h> 
 #include <stdbool.h>
 #include <signal.h>
 #include <string.h>
@@ -23,11 +24,13 @@ int addtoken(char *s, char *token_value);
 %token LEFT_PAREN RIGHT_PAREN LEFT_CURLY_BRACE RIGHT_CURLY_BRACE LEFT_BRACE RIGHT_BRACE
 %token SINGLE_LINE_COMMENT RIGHT_ANGLE LEFT_ANGLE SET LOOP FINALLY PRINT FUNC 
 %%
-PROGRAM : STATEMENT |PROGRAM STATEMENT;
+PROGRAM :PROGRAM STATEMENT 
+        | 
+        ;
 STATEMENT: SET_STATEMENT
-            | DEC_STATEMENT  SEMI {printf("DEC_STATEMENT");}
+            | DEC_STATEMENT  {printf("DEC_STATEMENT\n");}
             | EXPRESSION SEMI
-            | ASSGN_STATEMENT  SEMI
+            | ASSIGN_STATEMENT  SEMI
             | LOOP_STATEMENT 
             /* | PUSH_POP_STATEMENT 
             | CONDITIONAL_STATEMENT
@@ -53,11 +56,16 @@ VAR_TYPE: INTEGER | DOUBLE;
 DEC_CONDITION: ASSIGN VAR_TYPE 
              | ;
 
-DEC_STATEMENT: TYPE VAR DEC_CONDITION ;
-ASSGN_STATEMENT: VAR ASSIGN EXPRESSION;
+DEC_STATEMENT: TYPE VAR DEC_CONDITION SEMI {printf("Decleration\n");};
+ASSIGN_STATEMENT: VAR ASSIGN EXPRESSION {printf("Assignment Statement\n");};
 
+LOOP_STATEMENT : LOOP LEFT_PAREN LOOP_CONDITION RIGHT_PAREN LEFT_ANGLE PROGRAM RIGHT_ANGLE  {printf("Loop Statement");}
+               | LOOP LEFT_PAREN LOOP_CONDITION RIGHT_PAREN LEFT_ANGLE PROGRAM RIGHT_ANGLE FINALLY_STMT 
+               ;
+LOOP_CONDITION : DEC_STATEMENT BOOLEAN_EXP SEMI ASSIGN_STATEMENT {printf("Loop Condition\n");} ;
 
-LOOP_STATEMENT : LOOP LEFT_PAREN DEC_STATEMENT SEMI BOOLEAN_EXP SEMI ASSGN_STATEMENT RIGHT_PAREN
+FINALLY_STMT : FINALLY LEFT_ANGLE PROGRAM RIGHT_ANGLE ;
+ 
 
 EXPRESSION : BOOLEAN_EXP  {printf("Relations here\n");}
            ;
@@ -260,7 +268,7 @@ void free_token_list() {
 
 int main(int argc, char **argv) {
 
-    signal(SIGINT,INThandler);
+//    signal(SIGINT,INThandler);
     while(1) {
     yyparse();
     }
