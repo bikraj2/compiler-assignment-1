@@ -27,6 +27,7 @@ small { return SMALL;}
 \? { return TERNARY;}
 \< { return RIGHT_ANGLE;}
 \> { return LEFT_ANGLE;}
+, {return COMMA;}
 
 if { return IF;};
 else { return ELSE;};
