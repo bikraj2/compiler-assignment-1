@@ -412,12 +412,11 @@ int main(int argc, char *argv[]) {
 
     yyin = inputFile;
 
-    while (1) {
+    do  {
         if (yyparse() != 0) {
             break; 
         }
-    }
-
+    }while(!feof(inputFile));
     fclose(inputFile);
     return EXIT_SUCCESS;
 }
