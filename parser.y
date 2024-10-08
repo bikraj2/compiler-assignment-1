@@ -6,9 +6,9 @@
 #include <stdlib.h>
 void yyerror(char *);
 int yylex();
-int lineno;
-FILE * tokenFile;
-FILE * parsedFile;
+extern int lineno;
+extern FILE * tokenFile;
+extern FILE * parsedFile;
 
 void addToFile(char * s, int t);
 void INThandler(int sig);

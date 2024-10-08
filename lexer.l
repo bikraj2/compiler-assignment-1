@@ -5,7 +5,7 @@ number    [0-9]
 %{ 
 #include <stdio.h>
 #include "y.tab.h"
-
+#include "string.h"
 %}
 %{
 int lineno = 1;
@@ -19,61 +19,71 @@ void addToFile(char * s ,int t);
 
 %}
 %%
-[0-9]+ {  yylval.intval= atoi(yytext); return INTEGER; };
-([0-9]+\.[0-9]+) { yylval.floatval= atof(yytext); return DOUBLE;};
+[0-9]+ {  yylval.intval= atoi(yytext);
+        char output[128];
+        strcpy(output, "Integer Value :"); 
+        addToFile(strcat(output,yytext),1); 
+        return INTEGER; 
+     };
+([0-9]+\.[0-9]+) { yylval.floatval= atof(yytext); 
+        char output[128];
+        strcpy(output, "Float Value :"); 
+        addToFile(strcat(output,yytext),1); 
+        return DOUBLE;
+        };
 
-int { addToFile("random",1);return INT;}; 
-float { return FLOAT;};
-big { return BIG;}
-small { return SMALL;}
+int { addToFile("Type : int",1);return INT;}; 
+float { addToFile("Type : float",1);return FLOAT;};
+big {addToFile("Type : big",1); return BIG;}
+small { addToFile("Type : small",1);return SMALL;}
 
-\(  { return LEFT_PAREN;}
-\)  { return RIGHT_PAREN;}
-\{  { return LEFT_CURLY_BRACE;}
-\}  { return RIGHT_CURLY_BRACE;}
-\[  { return LEFT_BRACE;}
-\]  { return RIGHT_BRACE;}
-: { return COLON;}
-\? { return TERNARY;}
-\> { return RIGHT_ANGLE;}
-\< { return LEFT_ANGLE;}
-, { return COMMA;}
+\(  { addToFile("Punctuation : Function Call : (",1);return LEFT_PAREN;}
+\)  { addToFile("Punctuation : )",1);return RIGHT_PAREN;}
+\{  { addToFile("Punctuation : {",1);return LEFT_CURLY_BRACE;}
+\}  { addToFile("Punctuation : }",1);return RIGHT_CURLY_BRACE;}
+\[  { addToFile("Punctuation : Access Operator : [",1);return LEFT_BRACE;}
+\]  { addToFile("Punctuation : ]",1);return RIGHT_BRACE;}
+: { addToFile("Punctuation : :(Colon)",1);return COLON;}
+\? { addToFile("Ternary(IF) : ?",1);return TERNARY;}
+\> {  addToFile("Punctuation : Comparison Operator : >",1);return RIGHT_ANGLE;}
+\< { addToFile("Punctuation : Comparison Operator : <",1);return LEFT_ANGLE;}
+, { addToFile("Punctuation : ,",1);return COMMA;}
 
 if { return IF;};
-else { return ELSE;};
-set { return SET;}
-loop {return LOOP;}
-finally { return FINALLY;}
-func { return FUNC;}
-print { return PRINT;}
-size { return SIZE;}
-return { return RETURN;};
+else { addToFile("Reserved Word : else",1); return ELSE;};
+set {addToFile("Reserved Word : set",1) ; return SET;}
+loop {addToFile("Reserved Word : loop",1) ;return LOOP;}
+finally { addToFile("Reserved Word : finally",1); return FINALLY;}
+func {addToFile("Reserved Word : func",1) ; return FUNC;}
+print { addToFile("Reserved Word : print",1); return PRINT;}
+size { addToFile("Reserved Word : size",1) ;return SIZE;}
+return { addToFile("Reserved Word : return",1); return RETURN;};
 
 
-\-\> { return RIGHT_ACCESS;}
-\<\- { return LEFT_ACCESS;}
+\-\> { addToFile("Access Operator : ->",1); return RIGHT_ACCESS;}
+\<\- {addToFile("Access Operator : <-",1); return LEFT_ACCESS;}
 
-\+ { return ADD_OP;}
-\- { return SUB_OP;}
-\/ { return DIV_OP;}
-\* { return MULT_OP;}
-% { return MOD_OP;}
-= { return ASSIGN;}
+\+ { addToFile("Operator : +",1);return ADD_OP;}
+\- { addToFile("Operator : -",1);return SUB_OP;}
+\/ { addToFile("Operator : /",1);return DIV_OP;}
+\* { addToFile("Operator : *",1);return MULT_OP;}
+% {addToFile("Operator : %",1); return MOD_OP;}
+= { addToFile("Operator : =",1);return ASSIGN;}
 
-or { return OR;}
-and { return AND;}
-not { return NOT;}
+or { addToFile("Reserved Word : or",1); return OR;}
+and {addToFile("Reserved Word : and",1); return AND;}
+not {addToFile("Reserved Word : not",1); return NOT;}
 
-\^ { return BIT_XOR;}
-\| { return BIT_OR;}
-& { return BIT_AND;}
-~ { return BIT_NOT;}
+\^ { addToFile("Operator : ^",1);return BIT_XOR;}
+\| { addToFile("Operator : |",1);return BIT_OR;}
+& { addToFile("Operator : &",1);return BIT_AND;}
+~ { addToFile("Operator : ~",1);return BIT_NOT;}
 
-\<= { return LESS_THAN_EQ;}
-\>= { return GREAT_THAN_EQ;}
-\<\> { return NOT_EQ;}
-\== { return EQUAL_TO;}
-! { return NOT_OP;}
+\<= { addToFile("Operator : <=",1);return LESS_THAN_EQ;}
+\>= { addToFile("Operator : >=",1);return GREAT_THAN_EQ;}
+\<\> { addToFile("Operator : <>",1);return NOT_EQ;}
+\== { addToFile("Operator : ==",1);return EQUAL_TO;}
+! { addToFile("Operator : !",1);return NOT_OP;}
 
 
 "#".*\n            {lineno++;};
@@ -82,7 +92,11 @@ not { return NOT;}
 printf("here\n");
   lineno++;}
 ; { return SEMI;}
-(_)*({alphabet})({alphabet}|{number}|(_))*  { return VAR;}/*variable name can start with "_"provided that the first character after "_" is a alphabet not a number*/
+(_)*({alphabet})({alphabet}|{number}|(_))*  { 
+    char output[128];
+    strcpy(output, "Identifier: ");  
+    addToFile( 
+    strcat(output, yytext) ,1);return VAR;}
 
 .  {};
 %%
