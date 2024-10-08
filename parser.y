@@ -33,34 +33,40 @@ int addtoken(char *s, char *token_value);
 %right NOT
 %right TERNARY
 %%
-PROGRAM :PROGRAM STATEMENT 
-        | 
+/* defines whole program structure with setup stataments at start */
+PROGRAM :SETUP_STATEMENT PROGRAM STATEMENT 
+        | SETUP_STATEMENT
         ;
-
-STATEMENT   : FUNC_STATEMENT {printf("FUNCTION DECLARATION");}
-            | LOOP_STATEMENT  SEMI 
+/* there can be multiple fucntion declaration statements in the setup section but it must have one set statement */
+MUL_FUNC_STATEMTN: MUL_FUNC_STATEMTN FUNC_STATEMENT| FUNC_STATEMENT
+SETUP_STATEMENT: SET_STATEMENT | SET_STATEMENT MUL_FUNC_STATEMTN
+/* all the statments that can be seen on the main section */
+STATEMENT   : 
+/* FUNC_STATEMENT {printf("FUNCTION DECLARATION");} */
+            LOOP_STATEMENT  SEMI 
             | PUSH_POP_STATEMENT  {printf("Push Pop Statement\n");}
             | CONDITIONAL_STATEMENT 
             | PRINT_STATEMENT 
-            | SET_STATEMENT
+            /* | SET_STATEMENT */
             | DEC_STATEMENT  {printf("DEC_STATEMENT\n");}
             | SIZE_EXP SEMI {printf("SIZE STMT");}
             | EXPRESSION_STMT  {printf("EXPRESSION STATMENT");}
             | ASSIGN_STATEMENT  SEMI
             ;
+/* definition for the looping statement */
 LOOP_STATEMENT : LOOP LEFT_PAREN LOOP_CONDITION RIGHT_PAREN COLON LEFT_ANGLE PROGRAM RIGHT_ANGLE  {printf("Loop Statement");}
                | LOOP LEFT_PAREN LOOP_CONDITION RIGHT_PAREN COLON LEFT_ANGLE PROGRAM RIGHT_ANGLE COLON FINALLY_STMT 
                ;
 LOOP_CONDITION : DEC_STATEMENT BOOLEAN_EXP SEMI ASSIGN_STATEMENT {printf("Loop Condition\n");} ;
 
 FINALLY_STMT : FINALLY COLON LEFT_ANGLE PROGRAM RIGHT_ANGLE ;
- 
+ /* definition for the conditional statement with if else */
 IF_STATEMENT: BOOLEAN_EXP TERNARY STATEMENT {printf("IF STATEMENT");};
 ELSE_STATEMENT: ELSE COLON STATEMENT{printf("ELSE STATEMENT");};
 CONDITIONAL_STATEMENT : RIGHT_ANGLE IF_STATEMENT ELSE_STATEMENT LEFT_ANGLE;
-
+/* Print statement */
 PRINT_STATEMENT: PRINT LEFT_PAREN PRINTABLE RIGHT_PAREN SEMI;
-
+/* Function declaration statement */
 FUNC_STATEMENT: FUNC VAR  FUNCTION_DEC_LIST LEFT_ANGLE FUNCTION_BODY RIGHT_ANGLE 
               ;
 FUNCTION_DEC_LIST :LEFT_PAREN PARAMETER_LIST SEMI  TYPE RIGHT_PAREN{printf("FUNCTION_DEC_LIST");}
@@ -75,7 +81,7 @@ FUNCTION_BODY : PROGRAM RETURN_STATEMENT
 
 RETURN_STATEMENT : RETURN EXPRESSION SEMI {printf("RETURN STATEMENT");}; 
 
-
+/* Vector push pop statements */
 PUSH_POP_STATEMENT : PUSH_STMT | POP_STMT;
 
 PUSH_STMT : VAR LEFT_ACCESS LEFT_BRACE EXPRESSION RIGHT_BRACE
@@ -89,30 +95,33 @@ SIZE_EXP: SIZE LEFT_BRACE VAR RIGHT_BRACE
          ;
 
 
-
+/* Set statement */
 SET_TYPE: INT  
             |FLOAT
             ;
+SET_SIZE: BIG
+            |SMALL
+            ;
+
+SET_STATEMENT: SET SET_TYPE SET_SIZE SEMI;
+
+/* Declaration Statements */
 VEC_TYPE:LEFT_BRACE SET_TYPE RIGHT_BRACE ;
 MIX_TYPE: SET_TYPE | VEC_TYPE;
 TYPE : SET_TYPE 
         | VEC_TYPE 
         | LEFT_CURLY_BRACE SET_TYPE ':' MIX_TYPE RIGHT_CURLY_BRACE
         ;     
-SET_SIZE: BIG
-            |SMALL
-            ;
 
-SET_STATEMENT: SET SET_TYPE SET_SIZE SEMI;
 VAR_TYPE: INTEGER | DOUBLE;
 DEC_CONDITION: ASSIGN VAR_TYPE  
              | ;
-
-
 VAR_LIST: VAR_LIST COMMA VAR DEC_CONDITION |  VAR DEC_CONDITION;
 DEC_STATEMENT: TYPE VAR_LIST SEMI;
-ASSIGN_STATEMENT: VAR ASSIGN EXPRESSION {printf("Assignment Exp\n");};
 
+/* Assignment Statement */
+ASSIGN_STATEMENT: VAR ASSIGN EXPRESSION {printf("Assignment Exp\n");};
+/* Expressions that make up boolean, arithmetic , bitwise operations */
 EXPRESSION_STMT : EXPRESSION SEMI;
 EXPRESSION : BOOLEAN_EXP  {printf("Relations here\n");}
            ;
@@ -147,17 +156,20 @@ RELATIONAL_EXP : RELATIONAL_EXP LEFT_ANGLE ARITHMETIC_EXP
                | RELATIONAL_EXP NOT_EQ ARITHMETIC_EXP 
                |ARITHMETIC_EXP  
               ;
+
+/* For accessing arrays/functions */
 ACCES_VAL: ARITHMETIC_EXP;
 FUNC_ACC_PARAM_LIST: FUNC_ACC_PARAM_LIST COMMA FACTOR
                   | FACTOR |  ;
-REF_TYPE: VAR LEFT_BRACE  ACCES_VAL RIGHT_BRACE  
-            | VAR LEFT_PAREN FUNC_ACC_PARAM_LIST RIGHT_PAREN 
+REF_TYPE: VAR LEFT_BRACE  ACCES_VAL RIGHT_BRACE   /*Access vectors*/
+            | VAR LEFT_PAREN FUNC_ACC_PARAM_LIST RIGHT_PAREN /*Call Functions*/
             ;
 
 FACTOR : VAR
        | INTEGER
        | DOUBLE
        ;
+/*Print Statement*/
 PRINTABLE: VAR_TYPE | VAR;
         ;
 
