@@ -2,4 +2,5 @@
 *.h 
 out
 *.output
-output/
+output/token.txt
+output/parsed.txt

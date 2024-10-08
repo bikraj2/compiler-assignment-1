@@ -7,6 +7,9 @@
 void yyerror(char *);
 int yylex();
 int lineno;
+FILE * tokenFile;
+FILE * parsedFile;
+
 void addToFile(char * s, int t);
 void INThandler(int sig);
 int addtoken(char *s, char *token_value);
@@ -51,11 +54,15 @@ SETUP_STATEMENT: SET_STATEMENT_LIST | SET_STATEMENT_LIST MUL_FUNC_STATMENT
 /* all the statments that can be seen on the main section */
 STATEMENT   : 
             LOOP_STATEMENT  SEMI 
-            | PUSH_POP_STATEMENT  SEMI{printf("Push Pop Statement\n");}
+            | PUSH_POP_STATEMENT  SEMI{
+
+            printf("%d",lineno);
+printf("Push Pop Statement\n");}
             | CONDITIONAL_STATEMENT 
             | PRINT_STATEMENT 
             /* | SET_STATEMENT */
             | DEC_STATEMENT  {
+            printf("%d",lineno);
             addToFile("DEC_STATEMENT",2);
             printf("DEC_STATEMENT\n");
             }
@@ -112,7 +119,9 @@ SET_SIZE: BIG
             |SMALL
             ;
 
-SET_STATEMENT: SET SET_TYPE SET_SIZE SEMI;
+SET_STATEMENT: SET SET_TYPE SET_SIZE SEMI {
+            printf("%d",lineno);
+             };
 
 /* Declaration Statements */
 VEC_TYPE:LEFT_BRACE SET_TYPE RIGHT_BRACE ;
@@ -126,7 +135,7 @@ VAR_TYPE: INTEGER | DOUBLE;
 DEC_CONDITION: ASSIGN VAR_TYPE  
              | ;
 VAR_LIST: VAR_LIST COMMA VAR DEC_CONDITION |  VAR DEC_CONDITION;
-DEC_STATEMENT: TYPE VAR_LIST SEMI {printf("%d",lineno);};
+DEC_STATEMENT: TYPE VAR_LIST SEMI ;
 /* Assignment Statement */
 ASSIGN_STATEMENT: VAR ASSIGN EXPRESSION {printf("Assignment Exp\n");};
 
@@ -340,8 +349,7 @@ void free_token_list() {
 //extern FILE *yyin;
 
 int main(int argc, char **argv) {
-
-//    signal(SIGINT,INThandler);
+    signal(SIGINT,INThandler);
     while(1) {
     yyparse();
     }
@@ -356,12 +364,17 @@ char c;
   // Catching the signal
   signal(sig,SIG_IGN);
   printf("\nDid you hit (Crtl-c)?\n Are you sure you want to close this program ? (Y/N)\n");
-c  = getchar();
+/*c  = getchar();
 if (c=='y'||c=='Y') {
+  fclose(tokenFile);
+  fclose(parsedFile);
   free_token_list();
   exit(0);
 }else {
 signal(SIGINT,INThandler);
 getchar();
-}
+} */
+  fclose(tokenFile);
+  fclose(parsedFile);
+exit(0);
 } 

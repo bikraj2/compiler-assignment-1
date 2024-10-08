@@ -6,3 +6,6 @@ clean:
 	rm out y.tab.c y.tab.h
 	rm -rf out
 
+run : 
+	rm -rf output/token.txt output/parsed.txt
+	./out

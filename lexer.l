@@ -9,6 +9,8 @@ number    [0-9]
 %}
 %{
 int lineno = 1;
+FILE  * tokenFile;
+FILE * parsedFile;
 /* 
   1 --> token
   2 --> statement
@@ -74,9 +76,11 @@ not { return NOT;}
 ! { return NOT_OP;}
 
 
-"#".*\n            {};
+"#".*\n            {lineno++;};
 [ \t]+ {  /* Ignore whitespace */ } {/* [\n] {return EOL;} */}
-[\n] {lineno++;}
+[\n] {
+printf("here\n");
+  lineno++;}
 ; { return SEMI;}
 (_)*({alphabet})({alphabet}|{number}|(_))*  { return VAR;}/*variable name can start with "_"provided that the first character after "_" is a alphabet not a number*/
 
@@ -86,18 +90,18 @@ not { return NOT;}
 int yywrap(){ 
     return 1;
 }
-
 FILE * file;
 
 void addToFile(char * s, int t) {
+   
+
   switch (t) {
     case  1 : {
-    file= fopen("output/token.txt", "a");
-    printf("Printhere");
+    file=fopen("output/token.txt","a+");
     break;
      } 
     case 2 :{
-    file= fopen("output/parsed.txt", "a");
+    file=fopen("output/parsed.txt","a+");
     break;
      } 
     default: {
@@ -111,7 +115,6 @@ void addToFile(char * s, int t) {
   exit(1);
     }
   fprintf(file, "%d : %s\n",lineno,s);
-    fclose(file);
- 
+    fclose(file); 
 }
 
