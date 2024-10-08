@@ -36,6 +36,7 @@ loop {return LOOP;}
 finally { return FINALLY;}
 func { return FUNC;}
 print { return PRINT;}
+size {return SIZE;}
 return { return RETURN;};
 
 
