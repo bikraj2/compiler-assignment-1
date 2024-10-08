@@ -7,27 +7,29 @@ number    [0-9]
 #include "y.tab.h"
 
 %}
-
+%{
+int lineno = 1;
+%}
 %%
 [0-9]+ {  yylval.intval= atoi(yytext); return INTEGER; };
 ([0-9]+\.[0-9]+) { yylval.floatval= atof(yytext); return DOUBLE;};
 
 int { return INT;}; 
 float { return FLOAT;};
-big {return BIG;}
+big { return BIG;}
 small { return SMALL;}
 
-\(  {return LEFT_PAREN;}
-\)  {return RIGHT_PAREN;}
-\{  {return LEFT_CURLY_BRACE;}
-\}  {return RIGHT_CURLY_BRACE;}
-\[  {return LEFT_BRACE;}
-\]  {return RIGHT_BRACE;}
+\(  { return LEFT_PAREN;}
+\)  { return RIGHT_PAREN;}
+\{  { return LEFT_CURLY_BRACE;}
+\}  { return RIGHT_CURLY_BRACE;}
+\[  { return LEFT_BRACE;}
+\]  { return RIGHT_BRACE;}
 : { return COLON;}
 \? { return TERNARY;}
 \> { return RIGHT_ANGLE;}
 \< { return LEFT_ANGLE;}
-, {return COMMA;}
+, { return COMMA;}
 
 if { return IF;};
 else { return ELSE;};
@@ -36,7 +38,7 @@ loop {return LOOP;}
 finally { return FINALLY;}
 func { return FUNC;}
 print { return PRINT;}
-size {return SIZE;}
+size { return SIZE;}
 return { return RETURN;};
 
 
@@ -54,7 +56,7 @@ or { return OR;}
 and { return AND;}
 not { return NOT;}
 
-\^ { return POW_OP;}/*Power operator will have a return type double*/
+\^ { return BIT_XOR;}
 \| { return BIT_OR;}
 & { return BIT_AND;}
 ~ { return BIT_NOT;}
@@ -63,10 +65,12 @@ not { return NOT;}
 \>= { return GREAT_THAN_EQ;}
 \<\> { return NOT_EQ;}
 \== { return EQUAL_TO;}
-! { return COMPLEMENT;}
+! { return NOT_OP;}
 
-"#".*\n            { return SINGLE_LINE_COMMENT ;};
-[ \t\n]+ {  /* Ignore whitespace */ } {/* [\n] {return EOL;} */}
+
+"#".*\n            {};
+[ \t]+ {  /* Ignore whitespace */ } {/* [\n] {return EOL;} */}
+[\n] {lineno++;}
 ; { return SEMI;}
 (_)*({alphabet})({alphabet}|{number}|(_))*  { return VAR;}/*variable name can start with "_"provided that the first character after "_" is a alphabet not a number*/
 
