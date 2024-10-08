@@ -19,13 +19,13 @@ void addToFile(char * s ,int t);
 
 %}
 %%
-[0-9]+ {  yylval.intval= atoi(yytext);
+[0-9]+ {  yylval.sVal= strdup(yytext);
         char output[128];
         strcpy(output, "Integer Value :"); 
         addToFile(strcat(output,yytext),1); 
         return INTEGER; 
      };
-([0-9]+\.[0-9]+) { yylval.floatval= atof(yytext); 
+([0-9]+\.[0-9]+) { yylval.sVal= strdup(yytext); 
         char output[128];
         strcpy(output, "Float Value :"); 
         addToFile(strcat(output,yytext),1); 
@@ -89,7 +89,6 @@ not { addToFile("Reserved Word : not",1); return NOT;}
 "#".*\n            {lineno++;};
 [ \t]+ {  /* Ignore whitespace */ } {/* [\n] {return EOL;} */}
 [\n] {
-printf("here\n");
   lineno++;}
 ; { return SEMI;}
 (_)*({alphabet})({alphabet}|{number}|(_))*  { 
@@ -97,7 +96,6 @@ printf("here\n");
     strcpy(output, "Identifier: ");  
     yylval.sVal = strdup(yytext);
     addToFile( strcat(output, yytext) ,1);
-    printf("%s",yylval.sVal);
     return VAR;
     }
 
