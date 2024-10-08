@@ -67,12 +67,12 @@ return { addToFile("Reserved Word : return",1); return RETURN;};
 \- { addToFile("Operator : -",1);return SUB_OP;}
 \/ { addToFile("Operator : /",1);return DIV_OP;}
 \* { addToFile("Operator : *",1);return MULT_OP;}
-% {addToFile("Operator : %",1); return MOD_OP;}
+% { addToFile("Operator : %",1); return MOD_OP;}
 = { addToFile("Operator : =",1);return ASSIGN;}
 
 or { addToFile("Reserved Word : or",1); return OR;}
-and {addToFile("Reserved Word : and",1); return AND;}
-not {addToFile("Reserved Word : not",1); return NOT;}
+and { addToFile("Reserved Word : and",1); return AND;}
+not { addToFile("Reserved Word : not",1); return NOT;}
 
 \^ { addToFile("Operator : ^",1);return BIT_XOR;}
 \| { addToFile("Operator : |",1);return BIT_OR;}
@@ -95,8 +95,11 @@ printf("here\n");
 (_)*({alphabet})({alphabet}|{number}|(_))*  { 
     char output[128];
     strcpy(output, "Identifier: ");  
-    addToFile( 
-    strcat(output, yytext) ,1);return VAR;}
+    yylval.sVal = strdup(yytext);
+    addToFile( strcat(output, yytext) ,1);
+    printf("%s",yylval.sVal);
+    return VAR;
+    }
 
 .  {};
 %%
