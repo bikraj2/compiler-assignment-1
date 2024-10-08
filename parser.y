@@ -7,6 +7,7 @@
 void yyerror(char *);
 int yylex();
 int lineno;
+void addToFile(char * s, int t);
 void INThandler(int sig);
 int addtoken(char *s, char *token_value);
 %}
@@ -34,7 +35,7 @@ int addtoken(char *s, char *token_value);
 %right TERNARY
 %%
 PROGRAM:SETUP_STATEMENT COMPOUND_STATEMENT 
-        ;
+       ;
 COMPOUND_STATEMENT: COMPOUND_STATEMENT STATEMENT 
                   |
                   ;
@@ -54,7 +55,10 @@ STATEMENT   :
             | CONDITIONAL_STATEMENT 
             | PRINT_STATEMENT 
             /* | SET_STATEMENT */
-            | DEC_STATEMENT  {printf("DEC_STATEMENT\n");}
+            | DEC_STATEMENT  {
+            addToFile("DEC_STATEMENT",2);
+            printf("DEC_STATEMENT\n");
+            }
             | EXPRESSION_STMT  {printf("EXPRESSION STATMENT");}
             | ASSIGN_STATEMENT  SEMI
             ;

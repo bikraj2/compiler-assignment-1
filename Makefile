@@ -4,4 +4,5 @@ compile:
 	gcc -o out lex.yy.c y.tab.c -ll  
 clean:
 	rm out y.tab.c y.tab.h
+	rm -rf out
 

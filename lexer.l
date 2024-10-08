@@ -9,12 +9,18 @@ number    [0-9]
 %}
 %{
 int lineno = 1;
+/* 
+  1 --> token
+  2 --> statement
+*/
+void addToFile(char * s ,int t);
+
 %}
 %%
 [0-9]+ {  yylval.intval= atoi(yytext); return INTEGER; };
 ([0-9]+\.[0-9]+) { yylval.floatval= atof(yytext); return DOUBLE;};
 
-int { return INT;}; 
+int { addToFile("random",1);return INT;}; 
 float { return FLOAT;};
 big { return BIG;}
 small { return SMALL;}
@@ -81,5 +87,31 @@ int yywrap(){
     return 1;
 }
 
+FILE * file;
 
+void addToFile(char * s, int t) {
+  switch (t) {
+    case  1 : {
+    file= fopen("output/token.txt", "a");
+    printf("Printhere");
+    break;
+     } 
+    case 2 :{
+    file= fopen("output/parsed.txt", "a");
+    break;
+     } 
+    default: {
+      printf("Invalid Logging Type Passed.\n");
+      exit(1);
+      } 
+  }
+  if (file==NULL)
+    {
+  printf("File not found and also couldnot be created.\n");
+  exit(1);
+    }
+  fprintf(file, "%d : %s\n",lineno,s);
+    fclose(file);
+ 
+}
 
