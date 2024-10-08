@@ -1,0 +1,10 @@
+set int small;
+set float small;  # semicolon added
+
+
+func total_area ( int h, int b,int h, int b ,int h, int b ,int h, int b  ; void)  # comment
+<
+  { int : int} a;
+  print(a + b);
+  return ;
+ >

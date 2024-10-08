@@ -1,0 +1,2 @@
+set int big;
+<marks >60 ? int a=10; else: int a=10;>

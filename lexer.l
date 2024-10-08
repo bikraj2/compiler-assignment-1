@@ -34,6 +34,7 @@ void addToFile(char * s ,int t);
 
 int { addToFile("Type : int",1);return INT;}; 
 float { addToFile("Type : float",1);return FLOAT;};
+void { addToFile("Type: void",1); return VOID;};
 big {addToFile("Type : big",1); return BIG;}
 small { addToFile("Type : small",1);return SMALL;}
 

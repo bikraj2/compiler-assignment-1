@@ -1,0 +1,7 @@
+set int small;
+set float small;  # semicolon added
+ a = b + 10;
+ loop (int i=0 ; i < 10 and i <  10 ; i=i+1) : 
+  < sum = sum+h[i]*b[i];>
+finally : < a = b + 10; >
+  ;
