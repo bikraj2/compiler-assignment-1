@@ -25,8 +25,9 @@ small { return SMALL;}
 \]  {return RIGHT_BRACE;}
 : { return COLON;}
 \? { return TERNARY;}
-\< { return LEFT_ANGLE;}
 \> { return RIGHT_ANGLE;}
+\< { return LEFT_ANGLE;}
+, {return COMMA;}
 
 if { return IF;};
 else { return ELSE;};
@@ -60,11 +61,11 @@ not { return NOT;}
 \<= { return LESS_THAN_EQ;}
 \>= { return GREAT_THAN_EQ;}
 \<\> { return NOT_EQ;}
-\=== { return EQUAL_TO;}
+\== { return EQUAL_TO;}
 ! { return COMPLEMENT;}
 
 "#".*\n            { return SINGLE_LINE_COMMENT ;};
-[ \t]+ {  /* Ignore whitespace */ } {/* [\n] {return EOL;} */}
+[ \t\n]+ {  /* Ignore whitespace */ } {/* [\n] {return EOL;} */}
 ; { return SEMI;}
 (_)*({alphabet})({alphabet}|{number}|(_))*  { return VAR;}/*variable name can start with "_"provided that the first character after "_" is a alphabet not a number*/
 
