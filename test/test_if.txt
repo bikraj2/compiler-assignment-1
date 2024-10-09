@@ -33,4 +33,3 @@ func student_pass_status ( int marks ; int) <
     >
     return status;
     >
-

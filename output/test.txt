@@ -1,5 +1,5 @@
-set int small;
-set float small;  # semicolon added
+set int big;
+set float big;  # semicolon added
 
 func total_area ( [float] h, [int] b ; float)  # comment
 <
@@ -8,9 +8,13 @@ func total_area ( [float] h, [int] b ; float)  # comment
   < sum = sum+h[i]*b[i]; >;
   return sum;
 > 
-
+ 
 [float] h, b;
 a<-[0.5]; b<-[3];    # previously incorrect bracket a<-(0.5) was written
 a<-[1.5]; b<-[2];
 a<-[2.5]; b<-[1];
+
+vect->[b]; [a + b] ->vect;
+[float] h, b;
+[]<-vect; vect->[];
 print( total_area(h,b) );

@@ -13,7 +13,8 @@ extern FILE * parsedFile;
 void addToFile(char * s, int t);
 void INThandler(int sig);
 int addtoken(char *s, char *token_value);
-
+int intSize = 0;
+int floatSize = 0;
 %}
 %union {
     char *sVal; 
@@ -60,7 +61,7 @@ SETUP_STATEMENT: SET_STATEMENT_LIST {$$ = (char *)malloc(strlen($1)+1); sprintf(
 /* all the statments that can be seen on the main section */
 STATEMENT   : 
             LOOP_STATEMENT  SEMI  {$$ = (char *)malloc(strlen($1)+strlen(";")+1); sprintf($$, "%s\n;",$1); free($1);}
-            | PUSH_POP_STATEMENT  SEMI {addToFile("PUSH_POP_STATEMENT", 2); $$ = (char *)malloc(strlen($1)+strlen(";")+1); sprintf($$, "%s\n;",$1); free($1);}
+            | PUSH_POP_STATEMENT  SEMI {addToFile("PUSH_POP_STATEMENT", 2); $$ = (char *)malloc(strlen($1)+strlen(";\n")+1); sprintf($$, "%s\n;",$1); free($1);}
             | CONDITIONAL_STATEMENT {$$ = (char *)malloc(strlen($1)+1); sprintf($$, "%s\n",$1); free($1);}
             | PRINT_STATEMENT SEMI{addToFile("PRINT_STATEMENT", 2);$$ = (char *)malloc(strlen($1)+1); sprintf($$, "%s\n",$1); free($1);}
             | DEC_STATEMENT SEMI  {addToFile("DEC_STATEMENT", 2);$$ = (char *)malloc(strlen($1)+1); sprintf($$, "%s\n",$1); free($1);}
@@ -69,23 +70,23 @@ STATEMENT   :
             ;
 /* definition for the looping statement */
 LOOP_STATEMENT :LOOP LEFT_PAREN  DEC_STATEMENT SEMI EXPRESSION SEMI ASSIGN_STATEMENT RIGHT_PAREN COLON LEFT_ANGLE COMPOUND_STATEMENT RIGHT_ANGLE FINALLY_STMT {
-               $$= (char *)malloc(strlen("for ")+strlen("(")+strlen($3) + strlen(";") + strlen($5)+strlen(";")+strlen($7)+strlen(")")+strlen("{\n")+strlen($11)+strlen("}\n")+strlen($13)+strlen("if()")+strlen($5)+strlen("{}")+ 1); 
-            sprintf($$,"for (%s;%s;){\n %s \n %s\n if (%s) {\n%s}}",$3,$5,$11,$7,$5,$13);
+               $$= (char *)malloc(strlen("for ")+strlen("(")+strlen($3) + strlen(";") + strlen($5)+strlen(";")+strlen($7)+strlen(")")+strlen("{\n")+strlen($11)+strlen("}\n")+strlen($13)+strlen("if()")+strlen($5)+strlen("{}()!")+ 1); 
+            sprintf($$,"for (%s;%s;){\n %s \n %s\n if (!(%s)) {\n%s}}",$3,$5,$11,$7,$5,$13);
             free($3); free($7); free($5); free($11); free($13);
             }
             ;
              
 FINALLY_STMT : FINALLY COLON LEFT_ANGLE COMPOUND_STATEMENT RIGHT_ANGLE {$$= (char *)malloc(  strlen($4)+1); 
-            sprintf($$, "%s",$4); free($4);printf("%s",$$);}
+            sprintf($$, "%s",$4); free($4);}
             |  { $$= (char *)malloc(2); sprintf($$,""); printf("Nothing");} 
             ;
  /* definition for the conditional statement with if else */
-IF_STATEMENT: BOOLEAN_EXP TERNARY STATEMENT {addToFile("CONDITIONAL_STATEMENT", 2); 
+IF_STATEMENT: BOOLEAN_EXP TERNARY COMPOUND_STATEMENT{addToFile("CONDITIONAL_STATEMENT", 2); 
                         $$= (char *)malloc(strlen($1)+strlen("?")+strlen($3)+1); 
                         sprintf($$, "%s?%s", $1,$3); 
                         free($1);free($3);
                         }
-ELSE_STATEMENT: ELSE COLON STATEMENT
+ELSE_STATEMENT: ELSE COLON COMPOUND_STATEMENT 
 {$$= (char *)malloc(strlen("else")+strlen(":")+strlen($3)+1); sprintf($$, "else:%s",$3); free($3);}
             ;
 CONDITIONAL_STATEMENT : RIGHT_ANGLE IF_STATEMENT ELSE_STATEMENT LEFT_ANGLE{$$= (char *)malloc(strlen("<")+strlen($2)+strlen($3)+ strlen(">")+1); 
@@ -132,22 +133,28 @@ PUSH_POP_STATEMENT : PUSH_STMT {$$ = (char *)malloc(strlen($1)+1); sprintf($$, "
                  | POP_STMT {$$ = (char *)malloc(strlen($1)+1); sprintf($$, "%s",$1); free($1);}
 
 PUSH_STMT : VAR LEFT_ACCESS LEFT_BRACE EXPRESSION RIGHT_BRACE 
-            {$$= (char *)malloc(strlen($1)+strlen("->")+strlen("[")+ strlen($4)+strlen("]")+1); 
-            sprintf($$, "%s->[%s]", $1,$4); free($1); free($4);
+            {$$= (char *)malloc(strlen($1)+strlen("push_back()")+strlen(".")+ strlen($4)+1); 
+            sprintf($$, "%s.push_back(%s)", $1,$4); free($1); free($4);
             }
           | LEFT_BRACE EXPRESSION RIGHT_BRACE RIGHT_ACCESS VAR
-          {$$= (char *)malloc(strlen("[")+ strlen($2)+strlen("]") +strlen("<-")+strlen($5)+1); 
-            sprintf($$, "[%s]<-%s", $2,$5);  free($2); free($5);}
-          ;
+      {
+        size_t total_len = strlen(".insert(.begin(),)") + strlen($2) + 2 * strlen($5) + 1;
+        $$ = (char *)malloc(total_len);
+        sprintf($$, "%s.insert(%s.begin(),%s)", $5, $5, $2);
+        free($2);
+        free($5);
+      }
+    ;          ;
 POP_STMT  :  VAR RIGHT_ACCESS LEFT_BRACE VAR RIGHT_BRACE 
-            {$$= (char *)malloc(strlen($1)+strlen("<-")+strlen("[")+ strlen($4)+strlen("]")+1); 
-            sprintf($$, "%s<-[%s]", $1,$4); free($1); free($4);
+            {$$= (char *)malloc(strlen($1)+strlen("=.back();\n.pop_back()")+strlen($4)+strlen("]")+1); 
+            sprintf($$, "%s=%s.back();\n%s.pop_back()", $4,$1,$1); free($1); free($4);
             }
           | LEFT_BRACE  RIGHT_BRACE LEFT_ACCESS VAR 
-            {$$= (char *)malloc(strlen("[")+strlen("]")+strlen("->")+ strlen($4)+1); 
-            sprintf($$, "[]->%s", $4); free($4);}
-          | VAR RIGHT_ACCESS LEFT_BRACE RIGHT_BRACE {$$= (char *)malloc(strlen($1)+strlen("<-")+strlen("[")+strlen("]")+1); 
-            sprintf($$, "%s<-[]", $1); free($1); free($4);
+            {$$= (char *)malloc(strlen(".erase(.begin())")+2*strlen($4)+1); 
+            sprintf($$, "%s.erase(%s.begin())", $4,$4); free($4);}
+          | VAR RIGHT_ACCESS LEFT_BRACE RIGHT_BRACE {$$= (char *)malloc(strlen($1)+strlen(".pop_back()")+ 1); 
+            sprintf($$, "%s.pop_back()", $1); 
+            free($1);
             }
           ;
 SIZE_EXP: SIZE LEFT_BRACE VAR RIGHT_BRACE{$$= (char *)malloc(strlen("size")+strlen("[")+strlen($3)+ strlen("]")+1); 
@@ -156,20 +163,50 @@ SIZE_EXP: SIZE LEFT_BRACE VAR RIGHT_BRACE{$$= (char *)malloc(strlen("size")+strl
 
 
 /* Set statement */
-SET_TYPE: INT   {$$ = (char *)malloc(strlen(" int")+1); sprintf($$, "int"); }
-            |FLOAT {$$ = (char *)malloc(strlen(" float")+1); sprintf($$, "float");}
-            ;
+SET_TYPE: INT {
+      if (intSize == 0) {
+          $$ = (char *)malloc(strlen("int") + 1);
+          sprintf($$, "int");
+      }
+      else if (intSize == 1) {
+          $$ = (char *)malloc(strlen("long long") + 1);
+          sprintf($$, "long long");
+      }
+  }
+  | FLOAT {
+      if (floatSize == 0) {
+          $$ = (char *)malloc(strlen("float") + 1);
+          sprintf($$, "float");
+      }
+      else if (floatSize == 1) {
+          $$ = (char *)malloc(strlen("double") + 1);
+          sprintf($$, "double");
+      }
+  };
 SET_SIZE: BIG {$$ = (char *)malloc(strlen("big")+1); sprintf($$, "big");}
             |SMALL {$$ = (char *)malloc(strlen("small")+1); sprintf($$, "small");}
             ;
 
-SET_STATEMENT: SET SET_TYPE SET_SIZE SEMI { addToFile("SET_STATEMENT",2);
-                    $$= (char *)malloc(strlen("set ")+strlen($2)+strlen($3)+ strlen(";")+1); 
-                    sprintf($$, "set %s %s;\n", $2,$3);free($2); free($3);  }
+SET_STATEMENT: SET SET_TYPE SET_SIZE SEMI { 
+    addToFile("SET_STATEMENT", 2);
+    $$ = (char *)malloc(strlen($2) + strlen($3) + strlen(";") + 2); 
+    sprintf($$, "%s %s\n", $2, $3);
+    free($2); 
+    free($3);
 
+    // String comparison to set sizes
+    if (strcmp($$, "int big\n") == 0) {
+        intSize = 1;
+    }
+    if (strcmp($$, "float big\n") == 0) {
+        floatSize = 1;
+    }
+    free($$);
+    $$= (char *)malloc(2); sprintf($$,"");
+};
 /* Declaration Statements */
 VEC_TYPE:LEFT_BRACE SET_TYPE RIGHT_BRACE 
-        {$$= (char *)malloc(strlen("[")+strlen($2)+strlen("]")+1); sprintf($$, "[%s]", $2); free($2);}
+        {$$= (char *)malloc(strlen("vector")+strlen("<")+strlen($2)+strlen(">")+1); sprintf($$, "vector<%s>", $2); free($2);}
             ; 
 MIX_TYPE: SET_TYPE{$$ = (char *)malloc(strlen($1)+1); sprintf($$, "%s",$1); free($1);}
                  | VEC_TYPE{$$ = (char *)malloc(strlen($1)+1); sprintf($$, "%s",$1); free($1);} ;
@@ -194,17 +231,17 @@ VAR_LIST: VAR_LIST COMMA VAR DEC_CONDITION {$$= (char *)malloc(strlen($1)+strlen
 
 DEC_STATEMENT: TYPE VAR_LIST { 
 $$= (char *)malloc(strlen($1)+strlen($2)+strlen(" ; ")+1); sprintf($$, "%s %s", $1,$2); 
-                    free($1); free($2);  printf("%s",$$);}
+                    free($1); free($2); } 
             ;  
 /* Assignment Statement */
 ASSIGN_STATEMENT: VAR ASSIGN EXPRESSION {$$= (char *)malloc(strlen($1)+strlen(" = ")+strlen($3)+1); 
-                        sprintf($$, "%s=%s", $1,$3); free($1); free($3); printf("%s;",$$);}
+                        sprintf($$, "%s=%s", $1,$3); free($1); free($3);} 
             ;
 
 /* Expressions that make up boolean, arithmetic , bitwise operations */
 EXPRESSION_STMT : EXPRESSION SEMI {$$ = (char *)malloc(strlen($1)+strlen(";")+1); 
-                        sprintf($$, "%s;\n",$1); free($1);printf("%s",$$);}
-EXPRESSION : BOOLEAN_EXP  {$$ = (char *)malloc(strlen($1)+1); sprintf($$, "%s",$1); free($1); printf("%s",$$);}
+                        sprintf($$, "%s;\n",$1); free($1);}
+EXPRESSION : BOOLEAN_EXP  {$$ = (char *)malloc(strlen($1)+1); sprintf($$, "%s",$1); free($1);} 
            ;
 ARITHMETIC_EXP : ARITHMETIC_EXP ADD_OP  MUL_EXP  {$$= (char *)malloc(strlen($1)+strlen(" + ")+strlen($3)+1); 
                     sprintf($$, "%s + %s", $1,$3); free($1);free($3);}
