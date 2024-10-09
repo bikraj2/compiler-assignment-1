@@ -7,19 +7,23 @@ compile:
 .PHONY: clean
 clean:
 	rm out y.tab.c y.tab.h
-	rm -rf out
+	rm -rf *.out
 
 filename= $(basename $(file))
 .PHONE :run
 run:
 	@echo "Compiling $(filename)"
-	./out "../test/$(file)"
+	./out "../test/input/$(file)"
 	@echo "------------------------------------------------------------------------------------"
-	@echo "Cpp file created at  ../test/$(filename).cpp" 
+	@echo "Cpp file created at  ../test/output/$(filename).cpp" 
 	@echo "------------------------------------------------------------------------------------"
 	@echo "Formatting the cpp file: $(filename)"
-	clang-format -i  "../test/$(filename).cpp"
+	clang-format -i  "../test/output/$(filename).cpp"
 	@echo "Fomratting Completed"
+	@echo "Compiling CPP File"
+	g++ ../test/output/$(filename).cpp
+	./a.out > ../test/printed/$(filename).txt
+
 debug:
 	lldb ./out "../test/$(file)"
 

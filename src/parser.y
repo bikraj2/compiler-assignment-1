@@ -26,14 +26,14 @@ char *fileName;
 %token <sVal> INTEGER
 %token <sVal> VAR
 %token <sVal> DOUBLE
-%token <sVal> INT FLOAT VOID BIG SMALL IF ELSE RETURN SIZE
+%token <sVal> INT FLOAT VOID BIG SMALL IF ELSE  RETURN SIZE
 %token <sVal> ADD_OP SUB_OP DIV_OP MULT_OP POW_OP MOD_OP ASSIGN COMP_ASSIGN_ADD
 %token <sVal> LESS_THAN LESS_THAN_EQ GREAT_THAN GREAT_THAN_EQ NOT_EQ COMPLEMENT EQUAL_TO
 %token <sVal> OR AND NOT BIT_OR BIT_AND BIT_NOT BIT_XOR NOT_OP
 %token <sVal> TERNARY COLON SEMI RIGHT_ACCESS LEFT_ACCESS  
 %token <sVal> LEFT_PAREN RIGHT_PAREN LEFT_CURLY_BRACE RIGHT_CURLY_BRACE LEFT_BRACE RIGHT_BRACE
 %token <sVal> SINGLE_LINE_COMMENT RIGHT_ANGLE LEFT_ANGLE SET LOOP FINALLY PRINT FUNC  COMMA
-%type <sVal> PROGRAM SETUP_STATEMENT COMPOUND_STATEMENT RETURN_TYPE
+%type <sVal> PROGRAM SETUP_STATEMENT COMPOUND_STATEMENT RETURN_TYPE EXP_LIST
 %type <sVal> STATEMENT MUL_FUNC_STATMENT FUNC_STATEMENT LOOP_STATEMENT FINALLY_STMT IF_STATEMENT ELSE_IF_STATEMENT ELSE_STATEMENT CONDITIONAL_STATEMENT PRINT_STATEMENT
 %type <sVal> PARAMETER_LIST PARAMETER  RETURN_STATEMENT PUSH_POP_STATEMENT PUSH_STMT POP_STMT SIZE_EXP SET_TYPE SET_STATEMENT_LIST SET_STATEMENT
 %type <sVal> VEC_TYPE MIX_TYPE TYPE VAR_TYPE DEC_CONDITION VAR_LIST DEC_STATEMENT ASSIGN_STATEMENT EXPRESSION EXPRESSION_STMT ARITHMETIC_EXP MUL_EXP UNARY_EXPRESSION PRIMARY_EXP BOOLEAN_EXP BIT_WISE_EXP RELATIONAL_EXP ACCES_VAL
@@ -48,12 +48,14 @@ char *fileName;
 %%
 PROGRAM:SETUP_STATEMENT COMPOUND_STATEMENT  {
    char *outName;
-   outName = (char * ) malloc(strlen("..")+strlen(".cpp")+strlen(fileName)+1);
+
+   outName = (char * ) malloc(strlen("../test/output")+strlen(".cpp")+strlen(fileName)+1);
   if (outName == NULL) {
     fprintf(stderr, "Memory allocation failed\n");
     exit(EXIT_FAILURE);
   }
-   outName = strdup("..");
+   outName = strdup("../test/output");
+   fileName = strrchr(fileName, '/');
    strcat(outName,fileName);
    strcat(outName,".cpp");
    FILE *outputFile = fopen(outName,"w");
@@ -109,16 +111,16 @@ IF_STATEMENT: LEFT_ANGLE BOOLEAN_EXP TERNARY COMPOUND_STATEMENT SEMI RIGHT_ANGLE
             sprintf($$, " if(%s){%s}", $2,$4); free($2);free($4);} ;
 ELSE_STATEMENT:LEFT_ANGLE BOOLEAN_EXP TERNARY COMPOUND_STATEMENT SEMI ELSE COLON COMPOUND_STATEMENT RIGHT_ANGLE
                   {addToFile("CONDITIONAL_STATEMENT", 2);
-                  $$= (char *)malloc(strlen("if(){}")+strlen($2)+strlen("else{}")+ strlen($4) +strlen($8)+1); 
+                  $$= (char *)malloc(strlen("if(){}")+strlen($2)+strlen("else {}")+ strlen($4) +strlen($8)+1); 
             sprintf($$, " if(%s){%s} else {%s}", $2,$4,$8); free($2);free($4);free($8);} ;
         ;
 
 EXP_LIST: BOOLEAN_EXP TERNARY COMPOUND_STATEMENT SEMI EXP_LIST  
-          {$$= (char *)malloc(strlen("if()")+strlen($1)+strlen("else{}")+ strlen($3) +strlen($5)+1); 
-            sprintf($$, "if(%s){%s}else%s", $1,$3,$5); free($1);free($3);free($5);} 
+          {$$= (char *)malloc(strlen("if(){}")+strlen($1)+strlen("else")+ strlen($3) +strlen($5)+1); 
+            sprintf($$, "if(%s){%s}else %s", $1,$3,$5); free($1);free($3);free($5);} 
             |  BOOLEAN_EXP TERNARY COMPOUND_STATEMENT SEMI
             {$$= (char *)malloc(strlen("if(){}")+strlen($1)+ strlen($3) +1); 
-            sprintf($$, "if(%s){%s}%s", $1,$3); free($1);free($3);} ;
+            sprintf($$, "if(%s){%s}", $1,$3); free($1);free($3);} ;
 ELSE_IF_STATEMENT: LEFT_ANGLE EXP_LIST ELSE COLON COMPOUND_STATEMENT RIGHT_ANGLE
                       {addToFile("CONDITIONAL_STATEMENT", 2);
                         $$= (char *)malloc(strlen($2)+strlen("else")+strlen("{}")+ strlen($5) +1); 
@@ -130,7 +132,7 @@ CONDITIONAL_STATEMENT :IF_STATEMENT {$$= (char *)malloc(strlen($1) +1);
                         |ELSE_STATEMENT {$$= (char *)malloc(strlen($1) +1); 
             sprintf($$, "%s", $1); }  ;
 /* Print statement */
-PRINT_STATEMENT: PRINT LEFT_PAREN PRINTABLE RIGHT_PAREN {$$= (char *)malloc(strlen("cout<<endl")+strlen("<<")+strlen($3)+1); 
+PRINT_STATEMENT: PRINT LEFT_PAREN PRINTABLE RIGHT_PAREN {$$= (char *)malloc(strlen("cout<<")+strlen("<<endl")+strlen($3)+1); 
 sprintf($$, "cout<<%s<<endl;", $3); free($3); 
             }
 /* Function declaration statement */
@@ -158,8 +160,8 @@ RETURN_TYPE : TYPE {$$ = (char *)malloc(strlen($1)); sprintf($$, "%s",$1 ); free
 FUNCTION_BODY : COMPOUND_STATEMENT RETURN_STATEMENT{$$ = (char *)malloc(strlen($1)+strlen($2)+1); sprintf($$, "%s%s",$1,$2); free($1);free($2);}
               ;
 
-RETURN_STATEMENT : RETURN EXPRESSION SEMI {addToFile("RETURN_STATEMENT",2); $$= (char *)malloc(strlen("return")+strlen($2)+strlen(";")+1);
-             sprintf($$, "return %s;\n", $2); free($2);}
+RETURN_STATEMENT : RETURN EXPRESSION SEMI {addToFile("RETURN_STATEMENT",2); $$= (char *)malloc(strlen("return ")+strlen($2)+strlen(";")+1);
+             sprintf($$, "return %s;", $2); free($2);}
             | RETURN SEMI {addToFile("RETURN_STATEMENT",2); $$= (char *)malloc(2);
              sprintf($$, ""); }
 
@@ -412,7 +414,9 @@ int main(int argc, char *argv[]) {
         return EXIT_FAILURE;
     }
 
-  fileName = strdup(argv[1]);
+    fileName = strdup(argv[1]);
+    fileName = strrchr(fileName, '/');
+    printf(fileName);
     FILE *inputFile = fopen(argv[1], "r");
 
     if (inputFile == NULL) {

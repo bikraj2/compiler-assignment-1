@@ -11,7 +11,7 @@ number    [0-9]
 int lineno = 1;
 FILE  * tokenFile;
 FILE * parsedFile;
-char *fileName;
+extern char *fileName;
 /* 
   1 --> token
   2 --> statement
@@ -111,17 +111,21 @@ FILE * file;
 
 void addToFile(char * s, int t) { 
    char buffer[256]; // Ensure this buffer is large enough for the concatenated result
-    snprintf(buffer, sizeof(buffer), "../%s", fileName);
+    fileName = strrchr(fileName, '/');
+    snprintf(buffer, sizeof(buffer), "../test/");
 
   switch (t) {
     case  1 : {
-    strcat(buffer,"_token.txt");
+    strcat(buffer,"/token");
+    strcat(buffer,fileName);
+    strcat(buffer,".txt");
     file=fopen(buffer,"a+");
     break;
      } 
     case 2 :{
-
-    strcat(buffer,"_parsed.txt");
+    strcat(buffer,"/parsed");
+    strcat(buffer,fileName);
+    strcat(buffer,".txt");
     file=fopen(buffer,"a+");
     break;
      } 
