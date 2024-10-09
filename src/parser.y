@@ -47,13 +47,25 @@ extern char *fileName;
 %right TERNARY
 %%
 PROGRAM:SETUP_STATEMENT COMPOUND_STATEMENT  {
-   char buffer[254];
- snprintf(buffer, sizeof(buffer), "../%s", fileName);
-  strcat(buffer,".cpp");
-   FILE *outputFile = fopen(buffer,"w");
-  
+  char *outName;
+
+   outName = (char * ) malloc(strlen("../test/output")+strlen(".cpp")+strlen(fileName)+1);
+  if (outName == NULL) {
+    fprintf(stderr, "Memory allocation failed\n");
+    exit(EXIT_FAILURE);
+  }
+   outName = strdup("../test/output");
+   fileName = strrchr(fileName, '/');
+   strcat(outName,fileName);
+   strcat(outName,".cpp");
+   FILE *outputFile = fopen(outName,"w");
+  if (outputFile ==NULL) {
+    fprintf(stderr,"Couldnot create the file");
+    return EXIT_FAILURE;
+  }
   fprintf(outputFile,"#include <iostream>\n#include <map>\n#include <vector>\nusing namespace std;\n%s\nint main() {\n%sreturn 1;\n}\n",$1,$2);
   fclose(outputFile);    
+             free(outName);
        }
       ;
 COMPOUND_STATEMENT: COMPOUND_STATEMENT STATEMENT  {
@@ -318,8 +330,8 @@ PRIMARY_EXP  : LEFT_PAREN EXPRESSION RIGHT_PAREN {$$= (char *)malloc(strlen("( "
              ; 
 
 BOOLEAN_EXP : BOOLEAN_EXP AND BIT_WISE_EXP{
-            $$= (char *)malloc(strlen($1)+strlen("and")+strlen($3)+1); 
-            sprintf($$, "%sand%s", $1,$3); free($1);  free($3);}
+            $$= (char *)malloc(strlen($1)+strlen(" and ")+strlen($3)+1); 
+            sprintf($$, "%s and %s", $1,$3); free($1);  free($3);}
              
             | BOOLEAN_EXP OR BIT_WISE_EXP  
             {$$= (char *)malloc(strlen($1)+strlen("or ")+strlen($3)+1); 
@@ -373,10 +385,10 @@ REF_TYPE: VAR LEFT_BRACE  EXPRESSION RIGHT_BRACE
             sprintf($$, "%s()", $1); free($1); }
             ;
 
-FACTOR : VAR  {$$ = (char *)malloc(strlen($1)+strlen(" ")+1); sprintf($$, "%s",$1);}
-       | INTEGER {$$ = (char *)malloc(strlen($1)+strlen(" ")+1); sprintf($$, "%s",$1); } 
-       | DOUBLE {$$ = (char *)malloc(strlen($1)+strlen(" ")+1); sprintf($$, "%s",$1); } 
-       | SIZE_EXP{$$ = (char *)malloc(strlen($1)+strlen(" ")+1); sprintf($$, "%s",$1); } 
+FACTOR : VAR  {$$ = (char *)malloc(strlen($1)+strlen("   ")+1); sprintf($$, "%s",$1);}
+       | INTEGER {$$ = (char *)malloc(strlen($1)+strlen("   ")+1); sprintf($$, "%s",$1); } 
+       | DOUBLE {$$ = (char *)malloc(strlen($1)+strlen("   ")+1); sprintf($$, "%s",$1); } 
+       | SIZE_EXP{$$ = (char *)malloc(strlen($1)+strlen("   ")+1); sprintf($$, "%s",$1); } 
        ;
 PRINTABLE: EXPRESSION {$$ = (char *)malloc(strlen($1)+1); sprintf($$, "%s",$1); free($1);}
          

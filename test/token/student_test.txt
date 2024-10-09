@@ -1,0 +1,210 @@
+1 : Reserved Word : set
+1 : Type : int
+1 : Type : big
+3 : Reserved Word : func
+3 : Identifier: student_grade
+3 : Punctuation : Function Call : (
+3 : Type : int
+3 : Identifier: marks
+3 : Punctuation : ,
+3 : Type : int
+3 : Identifier: highestmarks
+3 : Type : int
+3 : Punctuation : )
+3 : Punctuation : Comparison Operator : <
+4 : Type : int
+4 : Identifier: grade_status
+5 : Punctuation : Comparison Operator : <
+6 : Identifier: marks
+6 : Operator : >=
+6 : Integer Value :90
+6 : Ternary(IF) : ?
+6 : Identifier: grade_status
+6 : Operator : =
+6 : Integer Value :2
+6 : Punctuation : Comparison Operator : <
+7 : Identifier: marks
+7 : Operator : ==
+7 : Identifier: highestmarks
+7 : Ternary(IF) : ?
+7 : Identifier: grade_status
+7 : Operator : =
+7 : Integer Value :1
+8 : Punctuation : Comparison Operator : >
+9 : Identifier: marks
+9 : Operator : >=
+9 : Integer Value :80
+9 : Ternary(IF) : ?
+9 : Identifier: grade_status
+9 : Operator : =
+9 : Integer Value :3
+10 : Identifier: marks
+10 : Operator : >=
+10 : Integer Value :70
+10 : Ternary(IF) : ?
+10 : Identifier: grade_status
+10 : Operator : =
+10 : Integer Value :3
+11 : Identifier: marks
+11 : Operator : >=
+11 : Integer Value :60
+11 : Ternary(IF) : ?
+11 : Identifier: grade_status
+11 : Operator : =
+11 : Integer Value :4
+12 : Identifier: marks
+12 : Operator : >=
+12 : Integer Value :50
+12 : Ternary(IF) : ?
+12 : Identifier: grade_status
+12 : Operator : =
+12 : Integer Value :5
+13 : Identifier: marks
+13 : Operator : >=
+13 : Integer Value :40
+13 : Ternary(IF) : ?
+13 : Identifier: grade_status
+13 : Operator : =
+13 : Integer Value :6
+14 : Identifier: marks
+14 : Operator : >=
+14 : Integer Value :30
+14 : Ternary(IF) : ?
+14 : Identifier: grade_status
+14 : Operator : =
+14 : Integer Value :7
+15 : Reserved Word : else
+15 : Punctuation : :(Colon)
+15 : Identifier: grade_status
+15 : Operator : =
+15 : Integer Value :0
+17 : Punctuation : Comparison Operator : >
+19 : Reserved Word : return
+19 : Identifier: grade_status
+20 : Punctuation : Comparison Operator : >
+22 : Type : int
+22 : Identifier: marks
+22 : Operator : =
+22 : Integer Value :85
+23 : Type : int
+23 : Identifier: highestmarks
+23 : Operator : =
+23 : Integer Value :98
+24 : Type : int
+24 : Identifier: grade_status
+24 : Operator : =
+24 : Identifier: student_grade
+24 : Punctuation : Function Call : (
+24 : Identifier: marks
+24 : Punctuation : ,
+24 : Identifier: highestmarks
+24 : Punctuation : )
+25 : Reserved Word : print
+25 : Punctuation : Function Call : (
+25 : Identifier: grade_status
+25 : Punctuation : )
+1 : Reserved Word : set
+1 : Type : int
+1 : Type : big
+3 : Reserved Word : func
+3 : Identifier: student_grade
+3 : Punctuation : Function Call : (
+3 : Type : int
+3 : Identifier: marks
+3 : Punctuation : ,
+3 : Type : int
+3 : Identifier: highestmarks
+3 : Type : int
+3 : Punctuation : )
+3 : Punctuation : Comparison Operator : <
+4 : Type : int
+4 : Identifier: grade_status
+5 : Punctuation : Comparison Operator : <
+6 : Identifier: marks
+6 : Operator : >=
+6 : Integer Value :90
+6 : Ternary(IF) : ?
+6 : Identifier: grade_status
+6 : Operator : =
+6 : Integer Value :2
+6 : Punctuation : Comparison Operator : <
+7 : Identifier: marks
+7 : Operator : ==
+7 : Identifier: highestmarks
+7 : Ternary(IF) : ?
+7 : Identifier: grade_status
+7 : Operator : =
+7 : Integer Value :1
+8 : Punctuation : Comparison Operator : >
+9 : Identifier: marks
+9 : Operator : >=
+9 : Integer Value :80
+9 : Ternary(IF) : ?
+9 : Identifier: grade_status
+9 : Operator : =
+9 : Integer Value :3
+10 : Identifier: marks
+10 : Operator : >=
+10 : Integer Value :70
+10 : Ternary(IF) : ?
+10 : Identifier: grade_status
+10 : Operator : =
+10 : Integer Value :3
+11 : Identifier: marks
+11 : Operator : >=
+11 : Integer Value :60
+11 : Ternary(IF) : ?
+11 : Identifier: grade_status
+11 : Operator : =
+11 : Integer Value :4
+12 : Identifier: marks
+12 : Operator : >=
+12 : Integer Value :50
+12 : Ternary(IF) : ?
+12 : Identifier: grade_status
+12 : Operator : =
+12 : Integer Value :5
+13 : Identifier: marks
+13 : Operator : >=
+13 : Integer Value :40
+13 : Ternary(IF) : ?
+13 : Identifier: grade_status
+13 : Operator : =
+13 : Integer Value :6
+14 : Identifier: marks
+14 : Operator : >=
+14 : Integer Value :30
+14 : Ternary(IF) : ?
+14 : Identifier: grade_status
+14 : Operator : =
+14 : Integer Value :7
+15 : Reserved Word : else
+15 : Punctuation : :(Colon)
+15 : Identifier: grade_status
+15 : Operator : =
+15 : Integer Value :0
+17 : Punctuation : Comparison Operator : >
+19 : Reserved Word : return
+19 : Identifier: grade_status
+20 : Punctuation : Comparison Operator : >
+22 : Type : int
+22 : Identifier: marks
+22 : Operator : =
+22 : Integer Value :85
+23 : Type : int
+23 : Identifier: highestmarks
+23 : Operator : =
+23 : Integer Value :98
+24 : Type : int
+24 : Identifier: grade_status
+24 : Operator : =
+24 : Identifier: student_grade
+24 : Punctuation : Function Call : (
+24 : Identifier: marks
+24 : Punctuation : ,
+24 : Identifier: highestmarks
+24 : Punctuation : )
+25 : Reserved Word : print
+25 : Punctuation : Function Call : (
+25 : Identifier: grade_status
+25 : Punctuation : )

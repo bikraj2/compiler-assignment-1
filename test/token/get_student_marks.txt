@@ -1,0 +1,874 @@
+2 : Reserved Word : set
+2 : Type : int
+2 : Type : small
+4 : Reserved Word : func
+4 : Identifier: createScoreMap
+4 : Punctuation : Function Call : (
+4 : Punctuation : {
+4 : Type : int
+4 : Punctuation : :(Colon)
+4 : Punctuation : Access Operator : [
+4 : Type : float
+4 : Punctuation : ]
+4 : Punctuation : }
+4 : Identifier: scoreMap
+4 : Punctuation : ,
+4 : Punctuation : Access Operator : [
+4 : Type : int
+4 : Punctuation : ]
+4 : Identifier: rolls
+4 : Punctuation : Access Operator : [
+4 : Type : float
+4 : Punctuation : ]
+4 : Punctuation : )
+4 : Punctuation : Comparison Operator : <
+5 : Punctuation : Access Operator : [
+5 : Type : float
+5 : Punctuation : ]
+5 : Identifier: percentage
+6 : Reserved Word : loop
+6 : Punctuation : Function Call : (
+6 : Type : int
+6 : Identifier: i
+6 : Operator : =
+6 : Integer Value :0
+6 : Identifier: i
+6 : Punctuation : Comparison Operator : <
+6 : Reserved Word : size
+6 : Punctuation : Access Operator : [
+6 : Identifier: rolls
+6 : Punctuation : ]
+6 : Identifier: i
+6 : Operator : =
+6 : Identifier: i
+6 : Operator : +
+6 : Integer Value :1
+6 : Punctuation : )
+6 : Punctuation : :(Colon)
+6 : Punctuation : Comparison Operator : <
+7 : Type : float
+7 : Identifier: sum
+7 : Operator : =
+7 : Integer Value :0
+8 : Punctuation : Access Operator : [
+8 : Type : float
+8 : Punctuation : ]
+8 : Identifier: scores
+9 : Identifier: scores
+9 : Operator : =
+9 : Identifier: scoreMap
+9 : Punctuation : Access Operator : [
+9 : Identifier: rolls
+9 : Punctuation : Access Operator : [
+9 : Identifier: i
+9 : Punctuation : ]
+9 : Punctuation : ]
+10 : Reserved Word : loop
+10 : Punctuation : Function Call : (
+10 : Type : int
+10 : Identifier: j
+10 : Operator : =
+10 : Integer Value :0
+10 : Identifier: j
+10 : Punctuation : Comparison Operator : <
+10 : Reserved Word : size
+10 : Punctuation : Access Operator : [
+10 : Identifier: scores
+10 : Punctuation : ]
+10 : Identifier: j
+10 : Operator : =
+10 : Identifier: j
+10 : Operator : +
+10 : Integer Value :1
+10 : Punctuation : )
+10 : Punctuation : :(Colon)
+10 : Punctuation : Comparison Operator : <
+11 : Identifier: sum
+11 : Operator : =
+11 : Identifier: sum
+11 : Operator : +
+11 : Identifier: scores
+11 : Punctuation : Access Operator : [
+11 : Identifier: j
+11 : Punctuation : ]
+12 : Punctuation : Comparison Operator : >
+13 : Identifier: percentage
+13 : Access Operator : <-
+13 : Punctuation : Access Operator : [
+13 : Identifier: sum
+13 : Operator : /
+13 : Integer Value :300
+13 : Punctuation : ]
+14 : Punctuation : Comparison Operator : >
+15 : Reserved Word : return
+15 : Identifier: percentage
+16 : Punctuation : Comparison Operator : >
+18 : Punctuation : {
+18 : Type : int
+18 : Punctuation : :(Colon)
+18 : Punctuation : Access Operator : [
+18 : Type : float
+18 : Punctuation : ]
+18 : Punctuation : }
+18 : Identifier: studentMarks
+19 : Type : int
+19 : Identifier: maxMarks
+19 : Operator : =
+19 : Integer Value :300
+22 : Punctuation : Access Operator : [
+22 : Type : float
+22 : Punctuation : ]
+22 : Identifier: marks101
+23 : Punctuation : Access Operator : [
+23 : Type : float
+23 : Punctuation : ]
+23 : Identifier: marks102
+24 : Punctuation : Access Operator : [
+24 : Type : float
+24 : Punctuation : ]
+24 : Identifier: marks103
+28 : Identifier: marks101
+28 : Access Operator : <-
+28 : Punctuation : Access Operator : [
+28 : Integer Value :85
+28 : Punctuation : ]
+29 : Identifier: marks101
+29 : Access Operator : <-
+29 : Punctuation : Access Operator : [
+29 : Integer Value :90
+29 : Punctuation : ]
+30 : Identifier: marks101
+30 : Access Operator : <-
+30 : Punctuation : Access Operator : [
+30 : Integer Value :78
+30 : Punctuation : ]
+32 : Identifier: marks102
+32 : Access Operator : <-
+32 : Punctuation : Access Operator : [
+32 : Integer Value :70
+32 : Punctuation : ]
+33 : Identifier: marks102
+33 : Access Operator : <-
+33 : Punctuation : Access Operator : [
+33 : Integer Value :60
+33 : Punctuation : ]
+34 : Identifier: marks102
+34 : Access Operator : <-
+34 : Punctuation : Access Operator : [
+34 : Integer Value :80
+34 : Punctuation : ]
+36 : Identifier: marks103
+36 : Access Operator : <-
+36 : Punctuation : Access Operator : [
+36 : Integer Value :95
+36 : Punctuation : ]
+37 : Identifier: marks103
+37 : Access Operator : <-
+37 : Punctuation : Access Operator : [
+37 : Integer Value :88
+37 : Punctuation : ]
+38 : Identifier: marks103
+38 : Access Operator : <-
+38 : Punctuation : Access Operator : [
+38 : Integer Value :92
+38 : Punctuation : ]
+40 : Punctuation : Access Operator : [
+40 : Type : int
+40 : Punctuation : ]
+40 : Identifier: rolls
+41 : Identifier: rolls
+41 : Access Operator : <-
+41 : Punctuation : Access Operator : [
+41 : Integer Value :101
+41 : Punctuation : ]
+42 : Identifier: rolls
+42 : Access Operator : <-
+42 : Punctuation : Access Operator : [
+42 : Integer Value :102
+42 : Punctuation : ]
+43 : Identifier: rolls
+43 : Access Operator : <-
+43 : Punctuation : Access Operator : [
+43 : Integer Value :103
+43 : Punctuation : ]
+44 : Identifier: studentMarks
+44 : Punctuation : Access Operator : [
+44 : Integer Value :101
+44 : Punctuation : ]
+44 : Operator : =
+44 : Identifier: marks101
+45 : Identifier: studentMarks
+45 : Punctuation : Access Operator : [
+45 : Integer Value :102
+45 : Punctuation : ]
+45 : Operator : =
+45 : Identifier: marks102
+46 : Identifier: studentMarks
+46 : Punctuation : Access Operator : [
+46 : Integer Value :103
+46 : Punctuation : ]
+46 : Operator : =
+46 : Identifier: marks103
+48 : Punctuation : Access Operator : [
+48 : Type : float
+48 : Punctuation : ]
+48 : Identifier: percentages
+49 : Identifier: percentages
+49 : Operator : =
+49 : Identifier: createScoreMap
+49 : Punctuation : Function Call : (
+49 : Identifier: studentMarks
+49 : Punctuation : ,
+49 : Identifier: rolls
+49 : Punctuation : )
+51 : Reserved Word : loop
+51 : Punctuation : Function Call : (
+51 : Type : int
+51 : Identifier: i
+51 : Operator : =
+51 : Integer Value :0
+51 : Identifier: i
+51 : Punctuation : Comparison Operator : <
+51 : Reserved Word : size
+51 : Punctuation : Access Operator : [
+51 : Identifier: percentages
+51 : Punctuation : ]
+51 : Identifier: i
+51 : Operator : =
+51 : Identifier: i
+51 : Operator : +
+51 : Integer Value :1
+51 : Punctuation : )
+51 : Punctuation : :(Colon)
+51 : Punctuation : Comparison Operator : <
+52 : Reserved Word : print
+52 : Punctuation : Function Call : (
+52 : Identifier: percentages
+52 : Punctuation : Access Operator : [
+52 : Identifier: i
+52 : Punctuation : ]
+52 : Punctuation : )
+53 : Punctuation : Comparison Operator : >
+2 : Reserved Word : set
+2 : Type : int
+2 : Type : small
+4 : Reserved Word : func
+4 : Identifier: createScoreMap
+4 : Punctuation : Function Call : (
+4 : Punctuation : {
+4 : Type : int
+4 : Punctuation : :(Colon)
+4 : Punctuation : Access Operator : [
+4 : Type : float
+4 : Punctuation : ]
+4 : Punctuation : }
+4 : Identifier: scoreMap
+4 : Punctuation : ,
+4 : Punctuation : Access Operator : [
+4 : Type : int
+4 : Punctuation : ]
+4 : Identifier: rolls
+4 : Punctuation : Access Operator : [
+4 : Type : float
+4 : Punctuation : ]
+4 : Punctuation : )
+4 : Punctuation : Comparison Operator : <
+5 : Punctuation : Access Operator : [
+5 : Type : float
+5 : Punctuation : ]
+5 : Identifier: percentage
+6 : Reserved Word : loop
+6 : Punctuation : Function Call : (
+6 : Type : int
+6 : Identifier: i
+6 : Operator : =
+6 : Integer Value :0
+6 : Identifier: i
+6 : Punctuation : Comparison Operator : <
+6 : Reserved Word : size
+6 : Punctuation : Access Operator : [
+6 : Identifier: rolls
+6 : Punctuation : ]
+6 : Identifier: i
+6 : Operator : =
+6 : Identifier: i
+6 : Operator : +
+6 : Integer Value :1
+6 : Punctuation : )
+6 : Punctuation : :(Colon)
+6 : Punctuation : Comparison Operator : <
+7 : Type : float
+7 : Identifier: sum
+7 : Operator : =
+7 : Integer Value :0
+8 : Punctuation : Access Operator : [
+8 : Type : float
+8 : Punctuation : ]
+8 : Identifier: scores
+9 : Identifier: scores
+9 : Operator : =
+9 : Identifier: scoreMap
+9 : Punctuation : Access Operator : [
+9 : Identifier: rolls
+9 : Punctuation : Access Operator : [
+9 : Identifier: i
+9 : Punctuation : ]
+9 : Punctuation : ]
+10 : Reserved Word : loop
+10 : Punctuation : Function Call : (
+10 : Type : int
+10 : Identifier: j
+10 : Operator : =
+10 : Integer Value :0
+10 : Identifier: j
+10 : Punctuation : Comparison Operator : <
+10 : Reserved Word : size
+10 : Punctuation : Access Operator : [
+10 : Identifier: scores
+10 : Punctuation : ]
+10 : Identifier: j
+10 : Operator : =
+10 : Identifier: j
+10 : Operator : +
+10 : Integer Value :1
+10 : Punctuation : )
+10 : Punctuation : :(Colon)
+10 : Punctuation : Comparison Operator : <
+11 : Identifier: sum
+11 : Operator : =
+11 : Identifier: sum
+11 : Operator : +
+11 : Identifier: scores
+11 : Punctuation : Access Operator : [
+11 : Identifier: j
+11 : Punctuation : ]
+12 : Punctuation : Comparison Operator : >
+13 : Identifier: percentage
+13 : Access Operator : <-
+13 : Punctuation : Access Operator : [
+13 : Identifier: sum
+13 : Operator : /
+13 : Integer Value :300
+13 : Punctuation : ]
+14 : Punctuation : Comparison Operator : >
+15 : Reserved Word : return
+15 : Identifier: percentage
+16 : Punctuation : Comparison Operator : >
+18 : Punctuation : {
+18 : Type : int
+18 : Punctuation : :(Colon)
+18 : Punctuation : Access Operator : [
+18 : Type : float
+18 : Punctuation : ]
+18 : Punctuation : }
+18 : Identifier: studentMarks
+19 : Type : int
+19 : Identifier: maxMarks
+19 : Operator : =
+19 : Integer Value :300
+22 : Punctuation : Access Operator : [
+22 : Type : float
+22 : Punctuation : ]
+22 : Identifier: marks101
+23 : Punctuation : Access Operator : [
+23 : Type : float
+23 : Punctuation : ]
+23 : Identifier: marks102
+24 : Punctuation : Access Operator : [
+24 : Type : float
+24 : Punctuation : ]
+24 : Identifier: marks103
+28 : Identifier: marks101
+28 : Access Operator : <-
+28 : Punctuation : Access Operator : [
+28 : Integer Value :85
+28 : Punctuation : ]
+29 : Identifier: marks101
+29 : Access Operator : <-
+29 : Punctuation : Access Operator : [
+29 : Integer Value :90
+29 : Punctuation : ]
+30 : Identifier: marks101
+30 : Access Operator : <-
+30 : Punctuation : Access Operator : [
+30 : Integer Value :78
+30 : Punctuation : ]
+32 : Identifier: marks102
+32 : Access Operator : <-
+32 : Punctuation : Access Operator : [
+32 : Integer Value :70
+32 : Punctuation : ]
+33 : Identifier: marks102
+33 : Access Operator : <-
+33 : Punctuation : Access Operator : [
+33 : Integer Value :60
+33 : Punctuation : ]
+34 : Identifier: marks102
+34 : Access Operator : <-
+34 : Punctuation : Access Operator : [
+34 : Integer Value :80
+34 : Punctuation : ]
+36 : Identifier: marks103
+36 : Access Operator : <-
+36 : Punctuation : Access Operator : [
+36 : Integer Value :95
+36 : Punctuation : ]
+37 : Identifier: marks103
+37 : Access Operator : <-
+37 : Punctuation : Access Operator : [
+37 : Integer Value :88
+37 : Punctuation : ]
+38 : Identifier: marks103
+38 : Access Operator : <-
+38 : Punctuation : Access Operator : [
+38 : Integer Value :92
+38 : Punctuation : ]
+40 : Punctuation : Access Operator : [
+40 : Type : int
+40 : Punctuation : ]
+40 : Identifier: rolls
+41 : Identifier: rolls
+41 : Access Operator : <-
+41 : Punctuation : Access Operator : [
+41 : Integer Value :101
+41 : Punctuation : ]
+42 : Identifier: rolls
+42 : Access Operator : <-
+42 : Punctuation : Access Operator : [
+42 : Integer Value :102
+42 : Punctuation : ]
+43 : Identifier: rolls
+43 : Access Operator : <-
+43 : Punctuation : Access Operator : [
+43 : Integer Value :103
+43 : Punctuation : ]
+44 : Identifier: studentMarks
+44 : Punctuation : Access Operator : [
+44 : Integer Value :101
+44 : Punctuation : ]
+44 : Operator : =
+44 : Identifier: marks101
+45 : Identifier: studentMarks
+45 : Punctuation : Access Operator : [
+45 : Integer Value :102
+45 : Punctuation : ]
+45 : Operator : =
+45 : Identifier: marks102
+46 : Identifier: studentMarks
+46 : Punctuation : Access Operator : [
+46 : Integer Value :103
+46 : Punctuation : ]
+46 : Operator : =
+46 : Identifier: marks103
+48 : Punctuation : Access Operator : [
+48 : Type : float
+48 : Punctuation : ]
+48 : Identifier: percentages
+49 : Identifier: percentages
+49 : Operator : =
+49 : Identifier: createScoreMap
+49 : Punctuation : Function Call : (
+49 : Identifier: studentMarks
+49 : Punctuation : ,
+49 : Identifier: rolls
+49 : Punctuation : )
+51 : Reserved Word : loop
+51 : Punctuation : Function Call : (
+51 : Type : int
+51 : Identifier: i
+51 : Operator : =
+51 : Integer Value :0
+51 : Identifier: i
+51 : Punctuation : Comparison Operator : <
+51 : Reserved Word : size
+51 : Punctuation : Access Operator : [
+51 : Identifier: percentages
+51 : Punctuation : ]
+51 : Identifier: i
+51 : Operator : =
+51 : Identifier: i
+51 : Operator : +
+51 : Integer Value :1
+51 : Punctuation : )
+51 : Punctuation : :(Colon)
+51 : Punctuation : Comparison Operator : <
+52 : Reserved Word : print
+52 : Punctuation : Function Call : (
+52 : Identifier: percentages
+52 : Punctuation : Access Operator : [
+52 : Identifier: i
+52 : Punctuation : ]
+52 : Punctuation : )
+53 : Punctuation : Comparison Operator : >
+2 : Reserved Word : set
+2 : Type : int
+2 : Type : small
+4 : Reserved Word : func
+4 : Identifier: createScoreMap
+4 : Punctuation : Function Call : (
+4 : Punctuation : {
+4 : Type : int
+4 : Punctuation : :(Colon)
+4 : Punctuation : Access Operator : [
+4 : Type : float
+4 : Punctuation : ]
+4 : Punctuation : }
+4 : Identifier: scoreMap
+4 : Punctuation : ,
+4 : Punctuation : Access Operator : [
+4 : Type : int
+4 : Punctuation : ]
+4 : Identifier: rolls
+4 : Punctuation : Access Operator : [
+4 : Type : float
+4 : Punctuation : ]
+4 : Punctuation : )
+4 : Punctuation : Comparison Operator : <
+5 : Punctuation : Access Operator : [
+5 : Type : float
+5 : Punctuation : ]
+5 : Identifier: percentage
+6 : Reserved Word : loop
+6 : Punctuation : Function Call : (
+6 : Type : int
+6 : Identifier: i
+6 : Operator : =
+6 : Integer Value :0
+6 : Identifier: i
+6 : Punctuation : Comparison Operator : <
+6 : Reserved Word : size
+6 : Punctuation : Access Operator : [
+6 : Identifier: rolls
+6 : Punctuation : ]
+6 : Identifier: i
+6 : Operator : =
+6 : Identifier: i
+6 : Operator : +
+6 : Integer Value :1
+6 : Punctuation : )
+6 : Punctuation : :(Colon)
+6 : Punctuation : Comparison Operator : <
+7 : Type : float
+7 : Identifier: sum
+7 : Operator : =
+7 : Integer Value :0
+8 : Punctuation : Access Operator : [
+8 : Type : float
+8 : Punctuation : ]
+8 : Identifier: scores
+9 : Identifier: scores
+9 : Operator : =
+9 : Identifier: scoreMap
+9 : Punctuation : Access Operator : [
+9 : Identifier: rolls
+9 : Punctuation : Access Operator : [
+9 : Identifier: i
+9 : Punctuation : ]
+9 : Punctuation : ]
+10 : Reserved Word : loop
+10 : Punctuation : Function Call : (
+10 : Type : int
+10 : Identifier: j
+10 : Operator : =
+10 : Integer Value :0
+10 : Identifier: j
+10 : Punctuation : Comparison Operator : <
+10 : Reserved Word : size
+10 : Punctuation : Access Operator : [
+10 : Identifier: scores
+10 : Punctuation : ]
+10 : Identifier: j
+10 : Operator : =
+10 : Identifier: j
+10 : Operator : +
+10 : Integer Value :1
+10 : Punctuation : )
+10 : Punctuation : :(Colon)
+10 : Punctuation : Comparison Operator : <
+11 : Identifier: sum
+11 : Operator : =
+11 : Identifier: sum
+11 : Operator : +
+11 : Identifier: scores
+11 : Punctuation : Access Operator : [
+11 : Identifier: j
+11 : Punctuation : ]
+12 : Punctuation : Comparison Operator : >
+13 : Identifier: percentage
+13 : Access Operator : <-
+13 : Punctuation : Access Operator : [
+13 : Identifier: sum
+13 : Operator : /
+13 : Integer Value :300
+13 : Punctuation : ]
+14 : Punctuation : Comparison Operator : >
+15 : Reserved Word : return
+15 : Identifier: percentage
+16 : Punctuation : Comparison Operator : >
+18 : Punctuation : {
+18 : Type : int
+18 : Punctuation : :(Colon)
+18 : Punctuation : Access Operator : [
+18 : Type : float
+18 : Punctuation : ]
+18 : Punctuation : }
+18 : Identifier: studentMarks
+19 : Type : int
+19 : Identifier: maxMarks
+19 : Operator : =
+19 : Integer Value :300
+22 : Punctuation : Access Operator : [
+22 : Type : float
+22 : Punctuation : ]
+22 : Identifier: marks101
+2 : Reserved Word : set
+2 : Type : int
+2 : Type : small
+4 : Reserved Word : func
+4 : Identifier: createScoreMap
+4 : Punctuation : Function Call : (
+4 : Punctuation : {
+4 : Type : int
+4 : Punctuation : :(Colon)
+4 : Punctuation : Access Operator : [
+4 : Type : float
+4 : Punctuation : ]
+4 : Punctuation : }
+4 : Identifier: scoreMap
+4 : Punctuation : ,
+4 : Punctuation : Access Operator : [
+4 : Type : int
+4 : Punctuation : ]
+4 : Identifier: rolls
+4 : Punctuation : Access Operator : [
+4 : Type : float
+4 : Punctuation : ]
+4 : Punctuation : )
+4 : Punctuation : Comparison Operator : <
+5 : Punctuation : Access Operator : [
+5 : Type : float
+5 : Punctuation : ]
+5 : Identifier: percentage
+6 : Reserved Word : loop
+6 : Punctuation : Function Call : (
+6 : Type : int
+6 : Identifier: i
+6 : Operator : =
+6 : Integer Value :0
+6 : Identifier: i
+6 : Punctuation : Comparison Operator : <
+6 : Reserved Word : size
+6 : Punctuation : Access Operator : [
+6 : Identifier: rolls
+6 : Punctuation : ]
+6 : Identifier: i
+6 : Operator : =
+6 : Identifier: i
+6 : Operator : +
+6 : Integer Value :1
+6 : Punctuation : )
+6 : Punctuation : :(Colon)
+6 : Punctuation : Comparison Operator : <
+7 : Type : float
+7 : Identifier: sum
+7 : Operator : =
+7 : Integer Value :0
+8 : Punctuation : Access Operator : [
+8 : Type : float
+8 : Punctuation : ]
+8 : Identifier: scores
+9 : Identifier: scores
+9 : Operator : =
+9 : Identifier: scoreMap
+9 : Punctuation : Access Operator : [
+9 : Identifier: rolls
+9 : Punctuation : Access Operator : [
+9 : Identifier: i
+9 : Punctuation : ]
+9 : Punctuation : ]
+10 : Reserved Word : loop
+10 : Punctuation : Function Call : (
+10 : Type : int
+10 : Identifier: j
+10 : Operator : =
+10 : Integer Value :0
+10 : Identifier: j
+10 : Punctuation : Comparison Operator : <
+10 : Reserved Word : size
+10 : Punctuation : Access Operator : [
+10 : Identifier: scores
+10 : Punctuation : ]
+10 : Identifier: j
+10 : Operator : =
+10 : Identifier: j
+10 : Operator : +
+10 : Integer Value :1
+10 : Punctuation : )
+10 : Punctuation : :(Colon)
+10 : Punctuation : Comparison Operator : <
+11 : Identifier: sum
+11 : Operator : =
+11 : Identifier: sum
+11 : Operator : +
+11 : Identifier: scores
+11 : Punctuation : Access Operator : [
+11 : Identifier: j
+11 : Punctuation : ]
+12 : Punctuation : Comparison Operator : >
+13 : Identifier: percentage
+13 : Access Operator : <-
+13 : Punctuation : Access Operator : [
+13 : Identifier: sum
+13 : Operator : /
+13 : Integer Value :300
+13 : Punctuation : ]
+14 : Punctuation : Comparison Operator : >
+15 : Reserved Word : return
+15 : Identifier: percentage
+16 : Punctuation : Comparison Operator : >
+18 : Punctuation : {
+18 : Type : int
+18 : Punctuation : :(Colon)
+18 : Punctuation : Access Operator : [
+18 : Type : float
+18 : Punctuation : ]
+18 : Punctuation : }
+18 : Identifier: studentMarks
+19 : Type : int
+19 : Identifier: maxMarks
+19 : Operator : =
+19 : Integer Value :300
+22 : Punctuation : Access Operator : [
+22 : Type : float
+22 : Punctuation : ]
+22 : Identifier: marks101
+23 : Punctuation : Access Operator : [
+23 : Type : float
+23 : Punctuation : ]
+23 : Identifier: marks102
+24 : Punctuation : Access Operator : [
+24 : Type : float
+24 : Punctuation : ]
+24 : Identifier: marks103
+28 : Identifier: marks101
+28 : Access Operator : <-
+28 : Punctuation : Access Operator : [
+28 : Integer Value :85
+28 : Punctuation : ]
+29 : Identifier: marks101
+29 : Access Operator : <-
+29 : Punctuation : Access Operator : [
+29 : Integer Value :90
+29 : Punctuation : ]
+30 : Identifier: marks101
+30 : Access Operator : <-
+30 : Punctuation : Access Operator : [
+30 : Integer Value :78
+30 : Punctuation : ]
+32 : Identifier: marks102
+32 : Access Operator : <-
+32 : Punctuation : Access Operator : [
+32 : Integer Value :70
+32 : Punctuation : ]
+33 : Identifier: marks102
+33 : Access Operator : <-
+33 : Punctuation : Access Operator : [
+33 : Integer Value :60
+33 : Punctuation : ]
+34 : Identifier: marks102
+34 : Access Operator : <-
+34 : Punctuation : Access Operator : [
+34 : Integer Value :80
+34 : Punctuation : ]
+36 : Identifier: marks103
+36 : Access Operator : <-
+36 : Punctuation : Access Operator : [
+36 : Integer Value :95
+36 : Punctuation : ]
+37 : Identifier: marks103
+37 : Access Operator : <-
+37 : Punctuation : Access Operator : [
+37 : Integer Value :88
+37 : Punctuation : ]
+38 : Identifier: marks103
+38 : Access Operator : <-
+38 : Punctuation : Access Operator : [
+38 : Integer Value :92
+38 : Punctuation : ]
+40 : Punctuation : Access Operator : [
+40 : Type : int
+40 : Punctuation : ]
+40 : Identifier: rolls
+41 : Identifier: rolls
+41 : Access Operator : <-
+41 : Punctuation : Access Operator : [
+41 : Integer Value :101
+41 : Punctuation : ]
+42 : Identifier: rolls
+42 : Access Operator : <-
+42 : Punctuation : Access Operator : [
+42 : Integer Value :102
+42 : Punctuation : ]
+43 : Identifier: rolls
+43 : Access Operator : <-
+43 : Punctuation : Access Operator : [
+43 : Integer Value :103
+43 : Punctuation : ]
+44 : Identifier: studentMarks
+44 : Punctuation : Access Operator : [
+44 : Integer Value :101
+44 : Punctuation : ]
+44 : Operator : =
+44 : Identifier: marks101
+45 : Identifier: studentMarks
+45 : Punctuation : Access Operator : [
+45 : Integer Value :102
+45 : Punctuation : ]
+45 : Operator : =
+45 : Identifier: marks102
+46 : Identifier: studentMarks
+46 : Punctuation : Access Operator : [
+46 : Integer Value :103
+46 : Punctuation : ]
+46 : Operator : =
+46 : Identifier: marks103
+48 : Punctuation : Access Operator : [
+48 : Type : float
+48 : Punctuation : ]
+48 : Identifier: percentages
+49 : Identifier: percentages
+49 : Operator : =
+49 : Identifier: createScoreMap
+49 : Punctuation : Function Call : (
+49 : Identifier: studentMarks
+49 : Punctuation : ,
+49 : Identifier: rolls
+49 : Punctuation : )
+51 : Reserved Word : loop
+51 : Punctuation : Function Call : (
+51 : Type : int
+51 : Identifier: i
+51 : Operator : =
+51 : Integer Value :0
+51 : Identifier: i
+51 : Punctuation : Comparison Operator : <
+51 : Reserved Word : size
+51 : Punctuation : Access Operator : [
+51 : Identifier: percentages
+51 : Punctuation : ]
+51 : Identifier: i
+51 : Operator : =
+51 : Identifier: i
+51 : Operator : +
+51 : Integer Value :1
+51 : Punctuation : )
+51 : Punctuation : :(Colon)
+51 : Punctuation : Comparison Operator : <
+52 : Reserved Word : print
+52 : Punctuation : Function Call : (
+52 : Identifier: percentages
+52 : Punctuation : Access Operator : [
+52 : Identifier: i
+52 : Punctuation : ]
+52 : Punctuation : )
+53 : Punctuation : Comparison Operator : >

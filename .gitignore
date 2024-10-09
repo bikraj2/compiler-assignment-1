@@ -6,3 +6,4 @@ output/token.txt
 output/parsed.txt
 *_token.txt
 *parser.txt
+*.DS_Store

@@ -1,0 +1,25 @@
+set int big;
+
+func student_grade(int marks,int highestmarks; int) <
+    int grade_status;
+    <
+    marks >= 90? grade_status=2;< 
+    marks == highestmarks? grade_status=1;; #A+
+    >;  # A
+    marks >= 80? grade_status=3;;  # B
+    marks >= 70? grade_status=3;;  # C
+    marks >= 60? grade_status=4;;  # D
+    marks >= 50? grade_status=5;;  # B
+    marks >= 40? grade_status=6;;  # C
+    marks >= 30? grade_status=7;;  # D
+    else: grade_status=0;           # F (fail)
+    
+    >
+    
+return grade_status;
+>
+
+int marks = 85;                   # Example marks
+int highestmarks= 98;
+int grade_status = student_grade(marks,highestmarks);
+print(grade_status);              # Output the grade status
