@@ -1,0 +1,45 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Debug C++",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/build/out",
+      "args": [],
+      "stopAtEntry": false,
+      "cwd": "${workspaceFolder}",
+      "environment": [],
+      "externalConsole": false,
+      "MIMode": "lldb",
+      "preLaunchTask": "build",
+      "stopAtConnect": false,
+      "setupCommands": [
+        {
+          "description": "Set breakpoint at malloc_error_break",
+          "text": "break malloc_error_break",
+          "ignoreFailures": true
+        }
+      ]
+    },
+    {
+      "name": "(lldb) Launch",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/build/out",
+      "args": ["../test/1/test.txt"],
+      "stopAtEntry": false,
+      "cwd": "${fileDirname}",
+      "environment": [],
+      "externalConsole": false,
+      "MIMode": "lldb",
+      "setupCommands": [
+        {
+          "description": "Set breakpoint at malloc_error_break",
+          "text": "break malloc_error_break",
+          "ignoreFailures": true
+        }
+      ]
+    }
+  ]
+}

@@ -4,3 +4,5 @@ out
 *.output
 output/token.txt
 output/parsed.txt
+*_token.txt
+*parser.txt

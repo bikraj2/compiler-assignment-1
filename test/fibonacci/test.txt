@@ -1,0 +1,21 @@
+set int big;  # declaring an integer variable
+
+func fibonacci ( int n; int)  # comment
+<
+    int a = 0;   # first Fibonacci number
+    int b = 1;   # second Fibonacci number
+    int next;    # to hold the next Fibonacci number
+
+       loop (int i = 2; i <= n; i = i + 1) :
+    <
+        next = a + b;  # calculate the next Fibonacci number
+        a = b;         # move to the next number in the sequence
+        b = next;      # update b to the next number
+    >;
+
+    return b;  # return the nth Fibonacci number
+>
+
+int n = 5;     # for example, get the 10th Fibonacci number
+
+print(fibonacci(n));  # call the function and print the result

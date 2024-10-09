@@ -5,7 +5,7 @@ func two_sum (  int a; float) <
   print(sum);
 print(two_sum());
 <two_sum == 20? print(0);
- two_sum==30? print(1) ; # fails here
+ two_sum==30? print(1) ; # fail here
 else: print(1);
 return sum;
   >

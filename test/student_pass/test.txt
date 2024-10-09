@@ -1,0 +1,15 @@
+set int big;
+
+
+func student_pass ( int marks ; int) <
+    int status;
+    #when changed to marks->marks not working
+    <
+    marks> 60? status=1;;
+    marks> 70? status=2;;
+    marks> 80? status=3;;
+    marks> 90? status=4;;
+    else: status=0;
+    >
+   return status;
+   >

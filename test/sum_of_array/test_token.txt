@@ -1,0 +1,110 @@
+1 : Reserved Word : set
+1 : Type : int
+1 : Type : small
+3 : Reserved Word : func
+3 : Identifier: sumofArray
+3 : Punctuation : Function Call : (
+3 : Punctuation : Access Operator : [
+3 : Type : int
+3 : Punctuation : ]
+3 : Identifier: a
+3 : Type : int
+3 : Punctuation : )
+3 : Punctuation : Comparison Operator : <
+4 : Type : int
+4 : Identifier: sum
+4 : Operator : =
+4 : Integer Value :0
+5 : Type : int
+5 : Identifier: length
+5 : Operator : =
+5 : Reserved Word : size
+1 : Reserved Word : set
+1 : Type : int
+1 : Type : small
+3 : Reserved Word : func
+3 : Identifier: sumofArray
+3 : Punctuation : Function Call : (
+3 : Punctuation : Access Operator : [
+3 : Type : int
+3 : Punctuation : ]
+3 : Identifier: a
+3 : Type : int
+3 : Punctuation : )
+3 : Punctuation : Comparison Operator : <
+4 : Type : int
+4 : Identifier: sum
+4 : Operator : =
+4 : Integer Value :0
+5 : Type : int
+5 : Identifier: length
+5 : Operator : =
+5 : Reserved Word : size
+5 : Punctuation : Access Operator : [
+5 : Identifier: a
+5 : Punctuation : ]
+6 : Reserved Word : loop
+6 : Punctuation : Function Call : (
+6 : Type : int
+6 : Identifier: i
+6 : Operator : =
+6 : Integer Value :0
+6 : Identifier: i
+6 : Punctuation : Comparison Operator : <
+6 : Identifier: length
+6 : Identifier: i
+6 : Operator : =
+6 : Identifier: i
+6 : Operator : +
+6 : Integer Value :1
+6 : Punctuation : )
+6 : Punctuation : :(Colon)
+7 : Punctuation : Comparison Operator : <
+8 : Identifier: sum
+8 : Operator : =
+8 : Identifier: sum
+8 : Operator : +
+8 : Identifier: a
+8 : Punctuation : Access Operator : [
+8 : Identifier: i
+8 : Punctuation : ]
+9 : Punctuation : Comparison Operator : >
+10 : Reserved Word : return
+10 : Identifier: sum
+11 : Punctuation : Comparison Operator : >
+12 : Punctuation : Access Operator : [
+12 : Type : int
+12 : Punctuation : ]
+12 : Identifier: array
+13 : Identifier: array
+13 : Access Operator : <-
+13 : Punctuation : Access Operator : [
+13 : Integer Value :10
+13 : Punctuation : ]
+14 : Identifier: array
+14 : Access Operator : <-
+14 : Punctuation : Access Operator : [
+14 : Integer Value :10
+14 : Punctuation : ]
+15 : Identifier: array
+15 : Access Operator : <-
+15 : Punctuation : Access Operator : [
+15 : Integer Value :10
+15 : Punctuation : ]
+16 : Identifier: array
+16 : Access Operator : <-
+16 : Punctuation : Access Operator : [
+16 : Integer Value :10
+16 : Punctuation : ]
+17 : Identifier: array
+17 : Access Operator : <-
+17 : Punctuation : Access Operator : [
+17 : Integer Value :10
+17 : Punctuation : ]
+18 : Reserved Word : print
+18 : Punctuation : Function Call : (
+18 : Identifier: sumofArray
+18 : Punctuation : Function Call : (
+18 : Identifier: array
+18 : Punctuation : )
+18 : Punctuation : )

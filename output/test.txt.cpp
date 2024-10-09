@@ -20,6 +20,6 @@ a.push_back(   0.5   )
 ;b.push_back(   2   )
 ;a.push_back(   2.5   )
 ;b.push_back(   1   )
-;cout<<   total_area(  a  ,b )   ;
+;cout<<   total_area(  a  ,b )   <<endl;
 return 1;
 }

@@ -1,0 +1,62 @@
+1 : Reserved Word : set
+1 : Type : int
+1 : Type : big
+2 : Reserved Word : set
+2 : Type : float
+2 : Type : big
+4 : Reserved Word : func
+4 : Identifier: total_area
+4 : Punctuation : Function Call : (
+4 : Punctuation : Access Operator : [
+4 : Type : float
+4 : Punctuation : ]
+4 : Identifier: h
+4 : Punctuation : ,
+4 : Punctuation : Access Operator : [
+4 : Type : float
+4 : Punctuation : ]
+4 : Identifier: b
+4 : Type : float
+4 : Punctuation : )
+5 : Punctuation : Comparison Operator : <
+6 : Type : float
+6 : Identifier: sum
+6 : Operator : =
+6 : Integer Value :0
+7 : Reserved Word : loop
+7 : Punctuation : Function Call : (
+7 : Type : int
+7 : Identifier: i
+7 : Operator : =
+7 : Integer Value :0
+7 : Identifier: i
+7 : Punctuation : Comparison Operator : <
+7 : Integer Value :10
+7 : Reserved Word : and
+7 : Identifier: i
+7 : Punctuation : Comparison Operator : <
+7 : Integer Value :10
+7 : Identifier: i
+7 : Operator : =
+7 : Identifier: i
+7 : Operator : +
+7 : Integer Value :1
+7 : Punctuation : )
+7 : Punctuation : :(Colon)
+8 : Punctuation : Comparison Operator : <
+8 : Identifier: sum
+8 : Operator : =
+8 : Identifier: sum
+8 : Operator : +
+8 : Identifier: h
+8 : Punctuation : Access Operator : [
+8 : Identifier: i
+8 : Punctuation : ]
+8 : Operator : *
+8 : Identifier: b
+8 : Punctuation : Access Operator : [
+8 : Identifier: i
+8 : Punctuation : ]
+8 : Punctuation : Comparison Operator : >
+10 : Reserved Word : return
+10 : Identifier: sum

@@ -47,10 +47,14 @@ char *fileName;
 %right TERNARY
 %%
 PROGRAM:SETUP_STATEMENT COMPOUND_STATEMENT  {
-       $$ = (char *)malloc(strlen($1)+strlen($2)+1); sprintf($$, "%s%s",$1,$2);  
    char *outName;
-   outName = (char * ) malloc(strlen(".cpp")+strlen(fileName));
-   strcpy(outName,fileName);
+   outName = (char * ) malloc(strlen("..")+strlen(".cpp")+strlen(fileName)+1);
+  if (outName == NULL) {
+    fprintf(stderr, "Memory allocation failed\n");
+    exit(EXIT_FAILURE);
+  }
+   outName = strdup("..");
+   strcat(outName,fileName);
    strcat(outName,".cpp");
    FILE *outputFile = fopen(outName,"w");
   if (outputFile ==NULL) {
@@ -59,11 +63,11 @@ PROGRAM:SETUP_STATEMENT COMPOUND_STATEMENT  {
   }
   fprintf(outputFile,"#include <iostream>\n#include <map>\n#include <vector>\nusing namespace std;\n%s\nint main() {\n%sreturn 1;\n}\n",$1,$2);
   fclose(outputFile);    
-       printf("#include <iostream>\n#include <map>\n#include <vector>\nusing namespace std;\n%s\nint main() {\n%sreturn 1;\n}\n",$1,$2); free($1);free($2);
-       free(outName);
+             free(outName);
        }
       ;
-COMPOUND_STATEMENT: COMPOUND_STATEMENT STATEMENT  {$$ = (char *)malloc(strlen($1)+strlen($2)+1); sprintf($$, "%s%s",$1,$2); free($1);free($2);}
+COMPOUND_STATEMENT: COMPOUND_STATEMENT STATEMENT  {
+$$ = (char *)malloc(strlen($1)+strlen($2)+1); sprintf($$, "%s%s",$1,$2); free($1);free($2);}
                   |  { $$= (char *)malloc(2); sprintf($$,""); } 
 
                   ;
@@ -89,7 +93,7 @@ STATEMENT   :
             ;
 /* definition for the looping statement */
 LOOP_STATEMENT :LOOP LEFT_PAREN  DEC_STATEMENT SEMI EXPRESSION SEMI ASSIGN_STATEMENT RIGHT_PAREN COLON LEFT_ANGLE COMPOUND_STATEMENT RIGHT_ANGLE FINALLY_STMT {
-               $$= (char *)malloc(strlen("for ")+strlen("(")+strlen($3) + strlen(";") + strlen($5)+strlen(";")+strlen($7)+strlen(")")+strlen("{\n")+strlen($11)+strlen("}\n")+strlen($13)+strlen("if()")+strlen($5)+strlen("{}()!;;;")+ 1); 
+               $$= (char *)malloc(strlen("for ")+strlen("(")+strlen($3) + strlen(";") + strlen($5)+strlen(";")+strlen($7)+strlen(")")+strlen("{\n")+strlen($11)+strlen("}\n")+strlen($13)+strlen("if()")+strlen($5)+strlen("{}()!;;;")+ 10); 
             sprintf($$,"for (%s;%s;){\n %s \n %s;\n if (!(%s)) {\n%s}}",$3,$5,$11,$7,$5,$13);
             free($3); free($7); free($5); free($11); free($13);
             }
@@ -100,30 +104,31 @@ FINALLY_STMT : FINALLY COLON LEFT_ANGLE COMPOUND_STATEMENT RIGHT_ANGLE {$$= (cha
             |  { $$= (char *)malloc(2); sprintf($$,"");} 
             ;
  /* definition for the conditional statement with if else */
-IF_STATEMENT: BOOLEAN_EXP TERNARY COMPOUND_STATEMENT {addToFile("CONDITIONAL_STATEMENT", 2); 
-                        $$= (char *)malloc(strlen($1)+strlen("if(){}")+strlen($3)+1); 
-                        sprintf($$, "if(%s){%s}", $1,$3); 
-                        free($1);free($3);
-                        }
-ELSE_IF_STATEMENT: ELSE_IF_STATEMENT IF_STATEMENT {$$= (char *)malloc(strlen($1)+strlen("else")+strlen($2)+1); 
-                        sprintf($$, "%selse %s", $1,$2); 
-                        free($1);free($2);
-                        }
-                      | IF_STATEMENT {$$= (char *)malloc(strlen($1)+1); 
-                        sprintf($$, "%s", $1); 
-                        free($1);
-                        }
-ELSE_STATEMENT: ELSE COLON COMPOUND_STATEMENT
-{$$= (char *)malloc(strlen("else")+strlen("{}")+strlen($3)+1); sprintf($$, "else{%s}",$3); free($3);}
-            ;
-CONDITIONAL_STATEMENT : LEFT_ANGLE  IF_STATEMENT ELSE_STATEMENT RIGHT_ANGLE {$$= (char *)malloc(strlen($2)+strlen($3)+1); 
-            sprintf($$, "%s%s", $2,$3);  free($2); free($3);
-            }
-            | LEFT_ANGLE  IF_STATEMENT  RIGHT_ANGLE {$$= (char *)malloc(strlen($2)+1); 
-            sprintf($$, "%s", $2);  free($2); 
-            }
-            |LEFT_ANGLE  ELSE_IF_STATEMENT ELSE_STATEMENT  RIGHT_ANGLE LEFT_ANGLE  IF_STATEMENT ELSE_STATEMENT RIGHT_ANGLE {$$= (char *)malloc(strlen($2)+strlen($3)+1); 
-            sprintf($$, "%s%s", $2,$3);  free($2); free($3); };
+IF_STATEMENT: LEFT_ANGLE BOOLEAN_EXP TERNARY COMPOUND_STATEMENT SEMI RIGHT_ANGLE {addToFile("CONDITIONAL_STATEMENT", 2);
+      $$= (char *)malloc(strlen("if()")+strlen($2)+strlen("{}")+ strlen($4)+1); 
+            sprintf($$, " if(%s){%s}", $2,$4); free($2);free($4);} ;
+ELSE_STATEMENT:LEFT_ANGLE BOOLEAN_EXP TERNARY COMPOUND_STATEMENT SEMI ELSE COLON COMPOUND_STATEMENT RIGHT_ANGLE
+                  {addToFile("CONDITIONAL_STATEMENT", 2);
+                  $$= (char *)malloc(strlen("if(){}")+strlen($2)+strlen("else{}")+ strlen($4) +strlen($8)+1); 
+            sprintf($$, " if(%s){%s} else {%s}", $2,$4,$8); free($2);free($4);free($8);} ;
+        ;
+
+EXP_LIST: BOOLEAN_EXP TERNARY COMPOUND_STATEMENT SEMI EXP_LIST  
+          {$$= (char *)malloc(strlen("if()")+strlen($1)+strlen("else{}")+ strlen($3) +strlen($5)+1); 
+            sprintf($$, "if(%s){%s}else%s", $1,$3,$5); free($1);free($3);free($5);} 
+            |  BOOLEAN_EXP TERNARY COMPOUND_STATEMENT SEMI
+            {$$= (char *)malloc(strlen("if(){}")+strlen($1)+ strlen($3) +1); 
+            sprintf($$, "if(%s){%s}%s", $1,$3); free($1);free($3);} ;
+ELSE_IF_STATEMENT: LEFT_ANGLE EXP_LIST ELSE COLON COMPOUND_STATEMENT RIGHT_ANGLE
+                      {addToFile("CONDITIONAL_STATEMENT", 2);
+                        $$= (char *)malloc(strlen($2)+strlen("else")+strlen("{}")+ strlen($5) +1); 
+            sprintf($$, "%selse{%s}", $2,$5); free($2);free($5);}  ;
+CONDITIONAL_STATEMENT :IF_STATEMENT {$$= (char *)malloc(strlen($1) +1); 
+            sprintf($$, "%s", $1);}  
+                        |ELSE_IF_STATEMENT {$$= (char *)malloc(strlen($1) +1); 
+            sprintf($$, "%s", $1); }  
+                        |ELSE_STATEMENT {$$= (char *)malloc(strlen($1) +1); 
+            sprintf($$, "%s", $1); }  ;
 /* Print statement */
 PRINT_STATEMENT: PRINT LEFT_PAREN PRINTABLE RIGHT_PAREN {$$= (char *)malloc(strlen("cout<<endl")+strlen("<<")+strlen($3)+1); 
 sprintf($$, "cout<<%s<<endl;", $3); free($3); 
@@ -131,7 +136,7 @@ sprintf($$, "cout<<%s<<endl;", $3); free($3);
 /* Function declaration statement */
 FUNC_STATEMENT: FUNC VAR LEFT_PAREN PARAMETER_LIST SEMI  RETURN_TYPE RIGHT_PAREN LEFT_ANGLE FUNCTION_BODY RIGHT_ANGLE  
             {
-            $$= (char *)malloc(strlen($6)+strlen("(){}\n         ")+strlen($2) + strlen($4)+strlen($9)+1); 
+            $$= (char *)malloc(strlen($6)+strlen("(){}\n         ")+strlen($2) + strlen($4)+strlen($9)+10); 
             sprintf($$, "%s %s(%s) {\n %s }",$6,$2,$4,$9 );  free($2); free($4); free($6); free($9); 
             }
             | FUNC VAR  LEFT_PAREN SEMI RETURN_TYPE RIGHT_PAREN LEFT_ANGLE FUNCTION_BODY RIGHT_ANGLE  { 
@@ -190,7 +195,7 @@ POP_STMT  :  VAR RIGHT_ACCESS LEFT_BRACE VAR RIGHT_BRACE
             }
           ;
 SIZE_EXP: SIZE LEFT_BRACE VAR RIGHT_BRACE{$$= (char *)malloc(strlen("size")+strlen("[")+strlen($3)+ strlen("]")+1); 
-            sprintf($$, "size[%s]", $3); free($3);}
+            sprintf($$, "%s.size()", $3); free($3);}
          ;
 
 
@@ -250,8 +255,7 @@ TYPE : SET_TYPE {$$ = (char *)malloc(strlen($1)+1); sprintf($$, "%s",$1); free($
             }
         ;     
 
-VAR_TYPE: INTEGER {$$ = (char *)malloc(strlen($1)+3); sprintf($$, " %s ",$1); free($1);} 
-            | DOUBLE {$$ = (char *)malloc(strlen($1)+3); sprintf($$, " %s ",$1); free($1);}
+VAR_TYPE: EXPRESSION{$$ = (char *)malloc(strlen($1)+3); sprintf($$, " %s ",$1); free($1);} 
 DEC_CONDITION: ASSIGN VAR_TYPE  {$$ = (char *)malloc(strlen(" = ")+strlen($2)+1); sprintf($$, " = %s",$2);free($2);}
              | { $$= (char *)malloc(2); sprintf($$,""); } 
              ;
@@ -271,7 +275,8 @@ ASSIGN_STATEMENT: VAR ASSIGN EXPRESSION {$$= (char *)malloc(strlen($1)+strlen(" 
             ;
 
 /* Expressions that make up boolean, arithmetic , bitwise operations */
-EXPRESSION_STMT : EXPRESSION SEMI {$$ = (char *)malloc(strlen($1)+strlen(";")+1); 
+EXPRESSION_STMT : EXPRESSION SEMI {
+                $$ = (char *)malloc(strlen($1)+strlen(";\n")+1); 
                         sprintf($$, "%s;\n",$1); free($1);}
 EXPRESSION : BOOLEAN_EXP  {$$ = (char *)malloc(strlen($1)+1); sprintf($$, "%s",$1); free($1);} 
            ;
@@ -354,8 +359,8 @@ FUNC_ACC_PARAM_LIST: FUNC_ACC_PARAM_LIST COMMA FACTOR
                         {$$= (char *)malloc(strlen($1)+strlen(",")+strlen($3)+1); sprintf($$, " %s ,%s ", $1,$3); free($1); free($3);}
                   | FACTOR {$$ = (char *)malloc(strlen($1)+1); sprintf($$, " %s ",$1); free($1);}
 REF_TYPE: VAR LEFT_BRACE  ACCES_VAL RIGHT_BRACE  
-            {$$= (char *)malloc(strlen($1)+strlen("[")+strlen($3)+ strlen(" ] ")+1);
-                     sprintf($$, "%s[%s]", $1,$3);
+            {$$= (char *)malloc(strlen($1)+strlen(".at()")+strlen($3)+ 1);
+                     sprintf($$, "%s.at(%s)", $1,$3);
                      free($1);free($3); } /*Access vectors*/
             | VAR LEFT_PAREN FUNC_ACC_PARAM_LIST RIGHT_PAREN {$$= (char *)malloc(strlen($1)+strlen(" ( ")+strlen($3)+ strlen(" ) ")+1); 
             sprintf($$, "%s(%s)", $1,$3); free($1); free($3); 
@@ -411,9 +416,12 @@ int main(int argc, char *argv[]) {
     FILE *inputFile = fopen(argv[1], "r");
 
     if (inputFile == NULL) {
+
         perror("Error opening file");
         return EXIT_FAILURE;
     }
+
+  fileName =strtok(argv[1],".");
 
     yyin = inputFile;
 

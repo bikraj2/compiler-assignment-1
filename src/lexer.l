@@ -11,6 +11,7 @@ number    [0-9]
 int lineno = 1;
 FILE  * tokenFile;
 FILE * parsedFile;
+char *fileName;
 /* 
   1 --> token
   2 --> statement
@@ -108,16 +109,20 @@ int yywrap(){
 }
 FILE * file;
 
-void addToFile(char * s, int t) {
-   
+void addToFile(char * s, int t) { 
+   char buffer[256]; // Ensure this buffer is large enough for the concatenated result
+    snprintf(buffer, sizeof(buffer), "../%s", fileName);
 
   switch (t) {
     case  1 : {
-    file=fopen("output/token.txt","a+");
+    strcat(buffer,"_token.txt");
+    file=fopen(buffer,"a+");
     break;
      } 
     case 2 :{
-    file=fopen("output/parsed.txt","a+");
+
+    strcat(buffer,"_parsed.txt");
+    file=fopen(buffer,"a+");
     break;
      } 
     default: {
