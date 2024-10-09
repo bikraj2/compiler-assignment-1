@@ -1,36 +1,11 @@
 set int big;
-
-
-func student_pass_status ( int marks ; int) <
-    int status;
-    <
-    marks >60 ? status=1;
-    <
-    marks >65 ? status=2;
-    <
-    marks >70 ? status=3;
-    else: status=0;
-    >
-    else: status=0;
-    <
-    marks >75 ? status=4;
-    <
-    marks >80 ? status=5;
-    else: status=0;
-    >
-    else: status=0;
-    <
-    marks >85 ? status=6;
-    <
-    marks >90 ? 7;
-    else: status=0;
-    >
-    else: status=0;
-    >
-    >
-    >
-    else: status=0;
-    >
-    return status;
-    >
-
+func two_sum (  int a; float) <
+  float a=10,b;
+  sum=a+b; 
+  print(sum);
+print(two_sum());
+<two_sum == 20? print(0);
+ two_sum==30? print(1) ; # fails here
+else: print(1);
+return sum;
+  >
