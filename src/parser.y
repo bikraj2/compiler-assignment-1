@@ -36,8 +36,8 @@ extern char *fileName;
 %type <sVal> PROGRAM SETUP_STATEMENT COMPOUND_STATEMENT RETURN_TYPE
 %type <sVal> STATEMENT MUL_FUNC_STATMENT FUNC_STATEMENT LOOP_STATEMENT FINALLY_STMT IF_STATEMENT ELSE_IF_STATEMENT ELSE_STATEMENT CONDITIONAL_STATEMENT PRINT_STATEMENT
 %type <sVal> PARAMETER_LIST PARAMETER  RETURN_STATEMENT PUSH_POP_STATEMENT PUSH_STMT POP_STMT SIZE_EXP SET_TYPE SET_STATEMENT_LIST SET_STATEMENT
-%type <sVal> VEC_TYPE MIX_TYPE TYPE VAR_TYPE DEC_CONDITION VAR_LIST DEC_STATEMENT ASSIGN_STATEMENT EXPRESSION EXPRESSION_STMT ARITHMETIC_EXP MUL_EXP UNARY_EXPRESSION PRIMARY_EXP BOOLEAN_EXP BIT_WISE_EXP RELATIONAL_EXP ACCES_VAL
-%type <sVal> FUNC_ACC_PARAM_LIST REF_TYPE FACTOR PRINTABLE FUNCTION_BODY SET_SIZE
+%type <sVal> VEC_TYPE MIX_TYPE TYPE VAR_TYPE DEC_CONDITION VAR_LIST DEC_STATEMENT ASSIGN_STATEMENT EXPRESSION EXPRESSION_STMT ARITHMETIC_EXP MUL_EXP UNARY_EXPRESSION PRIMARY_EXP BOOLEAN_EXP BIT_WISE_EXP RELATIONAL_EXP 
+%type <sVal> FUNC_ACC_PARAM_LIST REF_TYPE FACTOR PRINTABLE FUNCTION_BODY SET_SIZE EXP_LIST  
 %left OR
 %left AND
 %left LESS_THAN LESS_THAN_EQ GREAT_THAN GREAT_THAN_EQ EQUAL_TO NOT_EQ
@@ -94,32 +94,32 @@ FINALLY_STMT : FINALLY COLON LEFT_ANGLE COMPOUND_STATEMENT RIGHT_ANGLE {$$= (cha
             |  { $$= (char *)malloc(2); sprintf($$,"");} 
             ;
  /* definition for the conditional statement with if else */
-IF_STATEMENT: BOOLEAN_EXP TERNARY COMPOUND_STATEMENT {addToFile("CONDITIONAL_STATEMENT", 2); 
-                        $$= (char *)malloc(strlen($1)+strlen("if(){}")+strlen($3)+1); 
-                        sprintf($$, "if(%s){%s}", $1,$3); 
-                        free($1);free($3);
-                        }
-ELSE_IF_STATEMENT: ELSE_IF_STATEMENT IF_STATEMENT {$$= (char *)malloc(strlen($1)+strlen("else")+strlen($2)+1); 
-                        sprintf($$, "%selse %s", $1,$2); 
-                        free($1);free($2);
-                        }
-                      | IF_STATEMENT {$$= (char *)malloc(strlen($1)+1); 
-                        sprintf($$, "%s", $1); 
-                        free($1);
-                        }
-ELSE_STATEMENT: ELSE COLON COMPOUND_STATEMENT
-{$$= (char *)malloc(strlen("else")+strlen("{}")+strlen($3)+1); sprintf($$, "else{%s}",$3); free($3);}
-            ;
-CONDITIONAL_STATEMENT : LEFT_ANGLE  IF_STATEMENT ELSE_STATEMENT RIGHT_ANGLE {$$= (char *)malloc(strlen($2)+strlen($3)+1); 
-            sprintf($$, "%s%s", $2,$3);  free($2); free($3);
-            }
-            | LEFT_ANGLE  IF_STATEMENT  RIGHT_ANGLE {$$= (char *)malloc(strlen($2)+1); 
-            sprintf($$, "%s", $2);  free($2); 
-            }
-            |LEFT_ANGLE  ELSE_IF_STATEMENT ELSE_STATEMENT  RIGHT_ANGLE LEFT_ANGLE  IF_STATEMENT ELSE_STATEMENT RIGHT_ANGLE {$$= (char *)malloc(strlen($2)+strlen($3)+1); 
-            sprintf($$, "%s%s", $2,$3);  free($2); free($3); }; 
-/* Print statement */
-PRINT_STATEMENT: PRINT LEFT_PAREN PRINTABLE RIGHT_PAREN {$$= (char *)malloc(strlen("cout<<endl")+strlen("<<")+strlen($3)+1); 
+IF_STATEMENT: LEFT_ANGLE BOOLEAN_EXP TERNARY COMPOUND_STATEMENT SEMI RIGHT_ANGLE {addToFile("CONDITIONAL_STATEMENT", 2);
+      $$= (char *)malloc(strlen("if()")+strlen($2)+strlen("{}")+ strlen($4)+1); 
+            sprintf($$, "if(%s){%s}", $2,$4); free($2);free($4);} ;
+ELSE_STATEMENT:LEFT_ANGLE BOOLEAN_EXP TERNARY COMPOUND_STATEMENT SEMI ELSE COLON COMPOUND_STATEMENT RIGHT_ANGLE
+                  {addToFile("CONDITIONAL_STATEMENT", 2);
+                  $$= (char *)malloc(strlen("if(){}")+strlen($2)+strlen("else {}")+ strlen($4) +strlen($8)+1); 
+            sprintf($$, "if(%s){%s} else {%s}", $2,$4,$8); free($2);free($4);free($8);} ;
+        ;
+
+EXP_LIST: BOOLEAN_EXP TERNARY COMPOUND_STATEMENT SEMI EXP_LIST  
+          {$$= (char *)malloc(strlen("if(){}")+strlen($1)+strlen("else")+ strlen($3) +strlen($5)+1); 
+            sprintf($$, "if(%s){%s}else %s", $1,$3,$5); free($1);free($3);free($5);} 
+            |  BOOLEAN_EXP TERNARY COMPOUND_STATEMENT SEMI
+            {$$= (char *)malloc(strlen("if(){}")+strlen($1)+ strlen($3) +1); 
+            sprintf($$, "if(%s){%s}", $1,$3); free($1);free($3);} ;
+ELSE_IF_STATEMENT: LEFT_ANGLE EXP_LIST ELSE COLON COMPOUND_STATEMENT RIGHT_ANGLE
+                      {addToFile("CONDITIONAL_STATEMENT", 2);
+                        $$= (char *)malloc(strlen($2)+strlen("else")+strlen("{}")+ strlen($5) +1); 
+            sprintf($$, "%selse{%s}", $2,$5); free($2);free($5);}  ;
+CONDITIONAL_STATEMENT :IF_STATEMENT {$$= (char *)malloc(strlen($1) +1); 
+            sprintf($$, "%s", $1);}  
+                        |ELSE_IF_STATEMENT {$$= (char *)malloc(strlen($1) +1); 
+            sprintf($$, "%s", $1); }  
+                        |ELSE_STATEMENT {$$= (char *)malloc(strlen($1) +1); 
+            sprintf($$, "%s", $1); }  ;/* Print statement */
+PRINT_STATEMENT: PRINT LEFT_PAREN PRINTABLE RIGHT_PAREN {$$= (char *)malloc(strlen("cout<<endl")+strlen("<<")+strlen($3)+strlen(";")+1); 
 sprintf($$, "cout<<%s<<endl;", $3); free($3); 
             }
 /* Function declaration statement */
@@ -136,7 +136,7 @@ FUNC_STATEMENT: FUNC VAR LEFT_PAREN PARAMETER_LIST SEMI  RETURN_TYPE RIGHT_PAREN
 
 
 PARAMETER_LIST : PARAMETER {$$ = (char *)malloc(strlen($1)+1); sprintf($$, "%s",$1); free($1);}
-              | PARAMETER_LIST COMMA PARAMETER  {$$= (char *)malloc(strlen($1)+strlen(" , ")+strlen($3)+1); sprintf($$, "%s, %s", $1,$3); free($1); free($3);}
+              | PARAMETER_LIST COMMA PARAMETER  {$$= (char *)malloc(strlen($1)+strlen(",")+strlen($3)+1); sprintf($$, "%s, %s", $1,$3); free($1); free($3);}
             
                 ;
 PARAMETER : TYPE VAR {$$ = (char *)malloc(strlen($1)+strlen($2)+3); sprintf($$, "%s %s",$1,$2); free($1);free($2);}
@@ -239,13 +239,13 @@ MIX_TYPE: SET_TYPE{$$ = (char *)malloc(strlen($1)+1); sprintf($$, "%s",$1); free
 TYPE : SET_TYPE {$$ = (char *)malloc(strlen($1)+1); sprintf($$, "%s",$1); free($1);}
         | VEC_TYPE {$$ = (char *)malloc(strlen($1)+1); sprintf($$, "%s",$1); free($1);}
         | LEFT_CURLY_BRACE SET_TYPE COLON MIX_TYPE RIGHT_CURLY_BRACE
-        {$$= (char *)malloc(strlen("map")+strlen("<")+strlen($2)+strlen(",")+ strlen($4)+strlen(">")+1); 
-            sprintf($$, "map<%s,%s>", $2,$4);  free($2);free($4);
+        {$$= (char *)malloc(strlen("map")+strlen("<")+strlen($2)+strlen(",")+ strlen($4)+strlen(" >")+1); 
+            sprintf($$, "map<%s,%s >", $2,$4);  free($2);free($4);
             }
         ;     
 
-VAR_TYPE: EXPRESSION {$$ = (char *)malloc(strlen($1)+strlen("  ")+1); sprintf($$, " %s ",$1); free($1);} 
-DEC_CONDITION: ASSIGN VAR_TYPE  {$$ = (char *)malloc(strlen(" = ")+strlen($2)+1); sprintf($$, " = %s",$2);free($2);}
+VAR_TYPE: EXPRESSION {$$ = (char *)malloc(strlen($1)+strlen("")+1); sprintf($$, "%s",$1); free($1);} 
+DEC_CONDITION: ASSIGN VAR_TYPE  {$$ = (char *)malloc(strlen("")+strlen($2)+1); sprintf($$, "=%s",$2);free($2);}
              | { $$= (char *)malloc(2); sprintf($$,""); } 
              ;
 VAR_LIST: VAR_LIST COMMA VAR DEC_CONDITION {$$= (char *)malloc(strlen($1)+strlen(",")+strlen($3)+ strlen($4)+1); 
@@ -255,12 +255,12 @@ VAR_LIST: VAR_LIST COMMA VAR DEC_CONDITION {$$= (char *)malloc(strlen($1)+strlen
    $$ = (char *)malloc(strlen($1)+strlen($2)+1); sprintf($$, "%s %s",$1,$2); free($1);free($2);}
 
 DEC_STATEMENT: TYPE VAR_LIST { 
-$$= (char *)malloc(strlen($1)+strlen($2)+strlen(" ; ")+1); sprintf($$, "%s %s", $1,$2); 
+$$= (char *)malloc(strlen($1)+strlen($2)+strlen("; ")+1); sprintf($$, "%s %s", $1,$2); 
                     free($1); free($2); } 
             ;  
 /* Assignment Statement */
 ASSIGN_STATEMENT: VAR ASSIGN EXPRESSION {
-                   $$ = (char *)malloc(strlen($1) + strlen(" = ") + strlen($3) + 2); // +2 for null terminator
+                   $$ = (char *)malloc(strlen($1) + strlen("= ") + strlen($3) + 2); // +2 for null terminator
     if ($$ != NULL) {
         sprintf($$, "%s = %s", $1, $3);
     } else {
@@ -270,27 +270,36 @@ ASSIGN_STATEMENT: VAR ASSIGN EXPRESSION {
     free($1); // Ensure $1 is dynamically allocated
     free($3); // Ensure $3 is dynamically allocated} 
             ;}
+    | VAR LEFT_BRACE EXPRESSION RIGHT_BRACE ASSIGN EXPRESSION {
+    $$ = (char *)malloc(strlen($1) +strlen($3) + strlen($6) + 1 +strlen("[]="));
+    sprintf($$,"%s[%s]=%s",$1,$3,$6);
+    free($1);
+    free($3);
+    free($6);
+    }
+;
+  
 
 /* Expressions that make up boolean, arithmetic , bitwise operations */
 EXPRESSION_STMT : EXPRESSION SEMI {
                 $$ = (char *)malloc(strlen($1)+strlen(";\n")+1); 
                         sprintf($$, "%s;\n",$1); free($1);}
-EXPRESSION : BOOLEAN_EXP  {$$ = (char *)malloc(strlen($1)+strlen("  ")+1); sprintf($$, "%s",$1); free($1); printf("%s",$$); }
+EXPRESSION : BOOLEAN_EXP  {$$ = (char *)malloc(strlen($1)+strlen(" ")+1); sprintf($$, "%s",$1); free($1); printf("%s",$$); }
            ;
-ARITHMETIC_EXP : ARITHMETIC_EXP ADD_OP  MUL_EXP  {$$= (char *)malloc(strlen($1)+strlen(" + ")+strlen($3)+1); 
+ARITHMETIC_EXP : ARITHMETIC_EXP ADD_OP  MUL_EXP  {$$= (char *)malloc(strlen($1)+strlen("+ ")+strlen($3)+1); 
                     sprintf($$, "%s + %s", $1,$3); free($1);free($3); } 
-               | ARITHMETIC_EXP SUB_OP MUL_EXP {$$= (char *)malloc(strlen($1)+strlen(" - ")+strlen($3)+1); 
+               | ARITHMETIC_EXP SUB_OP MUL_EXP {$$= (char *)malloc(strlen($1)+strlen("- ")+strlen($3)+1); 
                sprintf($$, "%s - %s", $1,$3); free($1); free($3);}
              
                | MUL_EXP {$$ = (char *)malloc(strlen($1)+1); sprintf($$, "%s",$1); free($1);}
 	            ;
 
 MUL_EXP : MUL_EXP MULT_OP  UNARY_EXPRESSION 
-        {$$= (char *)malloc(strlen($1)+strlen(" * ")+strlen($3)+1); 
+        {$$= (char *)malloc(strlen($1)+strlen("* ")+strlen($3)+1); 
         sprintf($$, "%s * %s", $1,$3); 
         free($1); free($3);}
              
-        | MUL_EXP DIV_OP UNARY_EXPRESSION {$$= (char *)malloc(strlen($1)+strlen(" / ")+strlen($3)+1); 
+        | MUL_EXP DIV_OP UNARY_EXPRESSION {$$= (char *)malloc(strlen($1)+strlen("/ ")+strlen($3)+1); 
         sprintf($$, "%s / %s", $1,$3); free($1); free($3);}
              
         | UNARY_EXPRESSION  {$$ = (char *)malloc(strlen($1)+1); sprintf($$, "%s",$1); free($1);}
@@ -301,7 +310,7 @@ UNARY_EXPRESSION : NOT_OP UNARY_EXPRESSION  {$$ = (char *)malloc(strlen("! ")+st
                             free($1);free($2);}
                  | PRIMARY_EXP  {$$ = (char *)malloc(strlen($1)+1); sprintf($$, "%s",$1); free($1);}
  
-PRIMARY_EXP  : LEFT_PAREN EXPRESSION RIGHT_PAREN {$$= (char *)malloc(strlen(" ( ")+strlen($2)+strlen(" ) ")+1); 
+PRIMARY_EXP  : LEFT_PAREN EXPRESSION RIGHT_PAREN {$$= (char *)malloc(strlen("( ")+strlen($2)+strlen(") ")+1); 
                 sprintf($$, "(%s)", $2); free($2); }
              
              | FACTOR {$$ = (char *)malloc(strlen($1)+1); sprintf($$, "%s",$1); free($1);}
@@ -313,62 +322,61 @@ BOOLEAN_EXP : BOOLEAN_EXP AND BIT_WISE_EXP{
             sprintf($$, "%sand%s", $1,$3); free($1);  free($3);}
              
             | BOOLEAN_EXP OR BIT_WISE_EXP  
-            {$$= (char *)malloc(strlen($1)+strlen(" or ")+strlen($3)+1); 
+            {$$= (char *)malloc(strlen($1)+strlen("or ")+strlen($3)+1); 
                 sprintf($$, "%sor%s", $1,$3); free($1);  free($3);}
              
-            |BIT_WISE_EXP {$$ = (char *)malloc(strlen($1)+1); sprintf($$, " %s ",$1); free($1);}
+            |BIT_WISE_EXP {$$ = (char *)malloc(strlen($1)+1); sprintf($$, "%s ",$1); free($1);}
             ;
 BIT_WISE_EXP :BIT_WISE_EXP BIT_AND RELATIONAL_EXP  
-            {$$= (char *)malloc(strlen($1)+strlen(" & ")+strlen($3)+1); sprintf($$, "%s&%s", $1,$3); free($1); free($3);}
+            {$$= (char *)malloc(strlen($1)+strlen("& ")+strlen($3)+1); sprintf($$, "%s&%s", $1,$3); free($1); free($3);}
              
-             | BIT_WISE_EXP BIT_XOR RELATIONAL_EXP {$$= (char *)malloc(strlen($1)+strlen(" ^ ")+strlen($3)+1); 
+             | BIT_WISE_EXP BIT_XOR RELATIONAL_EXP {$$= (char *)malloc(strlen($1)+strlen("^ ")+strlen($3)+1); 
              sprintf($$, "%s^%s", $1,$3); free($1); free($3);}
              
-             | BIT_WISE_EXP BIT_OR RELATIONAL_EXP {$$= (char *)malloc(strlen($1)+strlen(" | ")+strlen($3)+1); 
+             | BIT_WISE_EXP BIT_OR RELATIONAL_EXP {$$= (char *)malloc(strlen($1)+strlen("| ")+strlen($3)+1); 
              sprintf($$, "%s|%s", $1,$3); free($1); free($3);}
              
              | RELATIONAL_EXP {$$ = (char *)malloc(strlen($1)+1); sprintf($$, "%s",$1); free($1);}
              ;
 RELATIONAL_EXP : RELATIONAL_EXP LEFT_ANGLE ARITHMETIC_EXP 
-            {$$= (char *)malloc(strlen($1)+strlen(" < ")+strlen($3)+1); sprintf($$, " %s<%s", $1,$3); free($1); free($3); }
+            {$$= (char *)malloc(strlen($1)+strlen("< ")+strlen($3)+1); sprintf($$, "%s<%s", $1,$3); free($1); free($3); }
              
                | RELATIONAL_EXP RIGHT_ANGLE ARITHMETIC_EXP 
-               {$$= (char *)malloc(strlen($1)+strlen(" > ")+strlen($3)+1); sprintf($$, "%s>%s ", $1,$3); free($1); free($3);}
+               {$$= (char *)malloc(strlen($1)+strlen("> ")+strlen($3)+1); sprintf($$, "%s>%s ", $1,$3); free($1); free($3);}
              
                | RELATIONAL_EXP GREAT_THAN_EQ ARITHMETIC_EXP 
-               {$$= (char *)malloc(strlen($1)+strlen(" >= ")+strlen($3)+1); sprintf($$, "%s>=%s ", $1,$3); free($1); free($3);}
+               {$$= (char *)malloc(strlen($1)+strlen(">= ")+strlen($3)+1); sprintf($$, "%s>=%s ", $1,$3); free($1); free($3);}
              
                | RELATIONAL_EXP LESS_THAN_EQ ARITHMETIC_EXP 
-               {$$= (char *)malloc(strlen($1)+strlen(" <= ")+strlen($3)+1); sprintf($$, "%s<=%s", $1,$3); free($1); free($3);}
+               {$$= (char *)malloc(strlen($1)+strlen("<= ")+strlen($3)+1); sprintf($$, "%s<=%s", $1,$3); free($1); free($3);}
              
                | RELATIONAL_EXP EQUAL_TO ARITHMETIC_EXP 
-               {$$= (char *)malloc(strlen($1)+strlen(" == ")+strlen($3)+1); sprintf($$, "%s==%s", $1,$3); free($1); free($3);}
+               {$$= (char *)malloc(strlen($1)+strlen("== ")+strlen($3)+1); sprintf($$, "%s==%s", $1,$3); free($1); free($3);}
              
                | RELATIONAL_EXP NOT_EQ ARITHMETIC_EXP 
-                {$$= (char *)malloc(strlen($1)+strlen(" <> ")+strlen($3)+1); sprintf($$, "%s<>%s ", $1,$3); free($1); free($3);}             
+                {$$= (char *)malloc(strlen($1)+strlen("<> ")+strlen($3)+1); sprintf($$, "%s<>%s ", $1,$3); free($1); free($3);}             
                |ARITHMETIC_EXP  {$$ = (char *)malloc(strlen($1)+1); sprintf($$, "%s",$1); free($1);}
               ;
 
 /* For accessing arrays/functions */
-ACCES_VAL: ARITHMETIC_EXP {$$ = (char *)malloc(strlen($1)+1); sprintf($$, " %s ",$1); free($1);};
 FUNC_ACC_PARAM_LIST: FUNC_ACC_PARAM_LIST COMMA FACTOR 
-                        {$$= (char *)malloc(strlen($1)+strlen(",")+strlen($3)+1); sprintf($$, " %s ,%s ", $1,$3); free($1); free($3);}
-                  | FACTOR {$$ = (char *)malloc(strlen($1)+1); sprintf($$, " %s ",$1); free($1);}
-REF_TYPE: VAR LEFT_BRACE  ACCES_VAL RIGHT_BRACE  
+                        {$$= (char *)malloc(strlen($1)+strlen(",")+strlen($3)+1); sprintf($$, "%s ,%s ", $1,$3); free($1); free($3);}
+                  | FACTOR {$$ = (char *)malloc(strlen($1)+1); sprintf($$, "%s ",$1); free($1);}
+REF_TYPE: VAR LEFT_BRACE  EXPRESSION RIGHT_BRACE  
             {$$= (char *)malloc(strlen($1)+strlen(".at()")+strlen($3)+ 1);
                      sprintf($$, "%s.at(%s)", $1,$3);
                      free($1);free($3); } /*Access vectors*/
-            | VAR LEFT_PAREN FUNC_ACC_PARAM_LIST RIGHT_PAREN {$$= (char *)malloc(strlen($1)+strlen(" ( ")+strlen($3)+ strlen(" ) ")+1); 
+            | VAR LEFT_PAREN FUNC_ACC_PARAM_LIST RIGHT_PAREN {$$= (char *)malloc(strlen($1)+strlen("( ")+strlen($3)+ strlen(") ")+1); 
             sprintf($$, "%s(%s)", $1,$3); free($1); free($3); 
             }/*Call Functions*/
             |VAR LEFT_PAREN RIGHT_PAREN {$$= (char *)malloc(strlen($1)+strlen("(")+strlen(")")+1); 
             sprintf($$, "%s()", $1); free($1); }
             ;
 
-FACTOR : VAR  {$$ = (char *)malloc(strlen($1)+strlen("  ")+1); sprintf($$, "%s",$1);}
-       | INTEGER {$$ = (char *)malloc(strlen($1)+strlen("  ")+1); sprintf($$, "%s",$1); } 
-       | DOUBLE {$$ = (char *)malloc(strlen($1)+strlen("  ")+1); sprintf($$, "%s",$1); } 
-       | SIZE_EXP{$$ = (char *)malloc(strlen($1)+strlen("  ")+1); sprintf($$, "%s",$1); } 
+FACTOR : VAR  {$$ = (char *)malloc(strlen($1)+strlen(" ")+1); sprintf($$, "%s",$1);}
+       | INTEGER {$$ = (char *)malloc(strlen($1)+strlen(" ")+1); sprintf($$, "%s",$1); } 
+       | DOUBLE {$$ = (char *)malloc(strlen($1)+strlen(" ")+1); sprintf($$, "%s",$1); } 
+       | SIZE_EXP{$$ = (char *)malloc(strlen($1)+strlen(" ")+1); sprintf($$, "%s",$1); } 
        ;
 PRINTABLE: EXPRESSION {$$ = (char *)malloc(strlen($1)+1); sprintf($$, "%s",$1); free($1);}
          

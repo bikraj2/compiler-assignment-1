@@ -16,6 +16,21 @@ func fibonacci ( int n; int)  # comment
     return b;  # return the nth Fibonacci number
 >
 
-int n = 5;     # for example, get the 10th Fibonacci number
+func factorial(int n; int)  # comment
+<
+    int fact = 1;  # Initialize factorial result
 
-print(fibonacci(n));  # call the function and print the result
+    loop (int i = 1; i <= n; i = i + 1):
+    <
+        fact = fact * i;  # Multiply the result by i
+    >;
+
+    return fact;  # return the factorial of n
+>
+
+int n = 5; 
+# Example input
+
+# Call and print the results of both functions
+print(fibonacci(n));  # call the Fibonacci function
+print(factorial(n));  # call the Factorial function

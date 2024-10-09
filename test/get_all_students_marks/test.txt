@@ -1,0 +1,53 @@
+
+set int small;
+
+func createScoreMap({int: [float]} scoreMap,[int] rolls; [float]) <
+ [float] percentage ;
+ loop(int i = 0; i < size[rolls];i=i+1): <
+  float sum = 0;
+  [float] scores ;
+  scores = scoreMap[rolls[i]];
+  loop (int j = 0; j < size[scores] ; j=j+1): <
+    sum = sum + scores[j];
+  >;
+  percentage<-[sum/300];
+ >;
+ return percentage;
+>
+
+{int: [float]} studentMarks; 
+int maxMarks = 300; 
+
+
+[float] marks101;
+[float] marks102;
+[float] marks103;
+
+
+
+marks101 <- [85];   
+marks101 <- [90];   
+marks101 <- [78];   
+
+marks102 <- [70];   
+marks102 <- [60];   
+marks102 <- [80];   
+
+marks103 <- [95];   
+marks103 <- [88];   
+marks103 <- [92];   
+
+[int] rolls;
+rolls<-[101];
+rolls<-[102];
+rolls<-[103];
+studentMarks[101] = marks101;
+studentMarks[102] = marks102;
+studentMarks[103] = marks103;
+
+[float] percentages ;
+percentages = createScoreMap(studentMarks,rolls);
+
+loop ( int i = 0 ; i < size[percentages]; i = i + 1) : <
+  print(percentages[i]);
+>;

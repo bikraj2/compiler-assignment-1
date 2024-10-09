@@ -17,8 +17,20 @@ long long fibonacci(long long n) {
   };
   return b;
 }
+long long factorial(long long n) {
+  long long fact = 1;
+  for (long long i = 1; i <= n;) {
+    fact = fact * i;
+
+    i = i + 1;
+    if (!(i <= n)) {
+    }
+  };
+  return fact;
+}
 int main() {
   long long n = 5;
   cout << fibonacci(n) << endl;
+  cout << factorial(n) << endl;
   return 1;
 }

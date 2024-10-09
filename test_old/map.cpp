@@ -1,3 +1,8 @@
+#include <iostream>
 #include <map>
 
-int main() { std::map<class, class, class, class><int, int> there; }
+int main() {
+  std::map<int, int> there;
+  there[10] = 10;
+  std::cout << there.at(10);
+}
