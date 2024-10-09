@@ -273,3 +273,24 @@
 14 : Reserved Word : return
 14 : Identifier: status
 15 : Punctuation : Comparison Operator : >
+1 : Reserved Word : set
+1 : Type : int
+1 : Type : big
+4 : Reserved Word : func
+4 : Identifier: student_pass
+4 : Punctuation : Function Call : (
+4 : Type : int
+4 : Identifier: marks
+4 : Type : int
+4 : Punctuation : )
+4 : Punctuation : Comparison Operator : <
+5 : Type : int
+5 : Identifier: status
+7 : Punctuation : Comparison Operator : <
+8 : Identifier: marks
+8 : Punctuation : Comparison Operator : >
+8 : Integer Value :60
+8 : Ternary(IF) : ?
+8 : Identifier: status
+8 : Operator : =
+8 : Integer Value :1

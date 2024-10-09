@@ -110,9 +110,8 @@ int yywrap(){
 FILE * file;
 
 void addToFile(char * s, int t) { 
-   char buffer[256]; // Ensure this buffer is large enough for the concatenated result
+   char buffer[512]; // Ensure this buffer is large enough for the concatenated result
     snprintf(buffer, sizeof(buffer), "../%s", fileName);
-
   switch (t) {
     case  1 : {
     strcat(buffer,"_token.txt");

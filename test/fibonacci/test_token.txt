@@ -254,3 +254,195 @@
 21 : Identifier: n
 21 : Punctuation : )
 21 : Punctuation : )
+1 : Reserved Word : set
+1 : Type : int
+1 : Type : big
+3 : Reserved Word : func
+3 : Identifier: fibonacci
+3 : Punctuation : Function Call : (
+3 : Type : int
+3 : Identifier: n
+3 : Type : int
+3 : Punctuation : )
+4 : Punctuation : Comparison Operator : <
+5 : Type : int
+5 : Identifier: a
+5 : Operator : =
+5 : Integer Value :0
+6 : Type : int
+6 : Identifier: b
+6 : Operator : =
+6 : Integer Value :1
+7 : Type : int
+7 : Identifier: next
+9 : Reserved Word : loop
+9 : Punctuation : Function Call : (
+9 : Type : int
+9 : Identifier: i
+9 : Operator : =
+9 : Integer Value :2
+9 : Identifier: i
+9 : Operator : <=
+9 : Identifier: n
+9 : Identifier: i
+9 : Operator : =
+9 : Identifier: i
+9 : Operator : +
+9 : Integer Value :1
+9 : Punctuation : )
+9 : Punctuation : :(Colon)
+10 : Punctuation : Comparison Operator : <
+11 : Identifier: next
+11 : Operator : =
+11 : Identifier: a
+11 : Operator : +
+11 : Identifier: b
+12 : Identifier: a
+12 : Operator : =
+12 : Identifier: b
+13 : Identifier: b
+13 : Operator : =
+13 : Identifier: next
+14 : Punctuation : Comparison Operator : >
+16 : Reserved Word : return
+16 : Identifier: b
+17 : Punctuation : Comparison Operator : >
+19 : Type : int
+19 : Identifier: n
+19 : Operator : =
+19 : Integer Value :5
+21 : Reserved Word : print
+21 : Punctuation : Function Call : (
+21 : Identifier: fibonacci
+21 : Punctuation : Function Call : (
+21 : Identifier: n
+21 : Punctuation : )
+21 : Punctuation : )
+1 : Reserved Word : set
+1 : Type : int
+1 : Type : big
+3 : Reserved Word : func
+3 : Identifier: fibonacci
+3 : Punctuation : Function Call : (
+3 : Type : int
+3 : Identifier: n
+3 : Type : int
+3 : Punctuation : )
+4 : Punctuation : Comparison Operator : <
+5 : Type : int
+5 : Identifier: a
+5 : Operator : =
+5 : Integer Value :0
+6 : Type : int
+6 : Identifier: b
+6 : Operator : =
+6 : Integer Value :1
+7 : Type : int
+7 : Identifier: next
+9 : Reserved Word : loop
+9 : Punctuation : Function Call : (
+9 : Type : int
+9 : Identifier: i
+9 : Operator : =
+9 : Integer Value :2
+9 : Identifier: i
+9 : Operator : <=
+9 : Identifier: n
+9 : Identifier: i
+9 : Operator : =
+9 : Identifier: i
+9 : Operator : +
+9 : Integer Value :1
+9 : Punctuation : )
+9 : Punctuation : :(Colon)
+10 : Punctuation : Comparison Operator : <
+11 : Identifier: next
+11 : Operator : =
+11 : Identifier: a
+11 : Operator : +
+11 : Identifier: b
+12 : Identifier: a
+12 : Operator : =
+12 : Identifier: b
+13 : Identifier: b
+13 : Operator : =
+13 : Identifier: next
+14 : Punctuation : Comparison Operator : >
+16 : Reserved Word : return
+16 : Identifier: b
+17 : Punctuation : Comparison Operator : >
+19 : Type : int
+19 : Identifier: n
+19 : Operator : =
+19 : Integer Value :5
+21 : Reserved Word : print
+21 : Punctuation : Function Call : (
+21 : Identifier: fibonacci
+21 : Punctuation : Function Call : (
+21 : Identifier: n
+21 : Punctuation : )
+21 : Punctuation : )
+1 : Reserved Word : set
+1 : Type : int
+1 : Type : big
+3 : Reserved Word : func
+3 : Identifier: fibonacci
+3 : Punctuation : Function Call : (
+3 : Type : int
+3 : Identifier: n
+3 : Type : int
+3 : Punctuation : )
+4 : Punctuation : Comparison Operator : <
+5 : Type : int
+5 : Identifier: a
+5 : Operator : =
+5 : Integer Value :0
+6 : Type : int
+6 : Identifier: b
+6 : Operator : =
+6 : Integer Value :1
+7 : Type : int
+7 : Identifier: next
+9 : Reserved Word : loop
+9 : Punctuation : Function Call : (
+9 : Type : int
+9 : Identifier: i
+9 : Operator : =
+9 : Integer Value :2
+9 : Identifier: i
+9 : Operator : <=
+9 : Identifier: n
+9 : Identifier: i
+9 : Operator : =
+9 : Identifier: i
+9 : Operator : +
+9 : Integer Value :1
+9 : Punctuation : )
+9 : Punctuation : :(Colon)
+10 : Punctuation : Comparison Operator : <
+11 : Identifier: next
+11 : Operator : =
+11 : Identifier: a
+11 : Operator : +
+11 : Identifier: b
+12 : Identifier: a
+12 : Operator : =
+12 : Identifier: b
+13 : Identifier: b
+13 : Operator : =
+13 : Identifier: next
+14 : Punctuation : Comparison Operator : >
+16 : Reserved Word : return
+16 : Identifier: b
+17 : Punctuation : Comparison Operator : >
+19 : Type : int
+19 : Identifier: n
+19 : Operator : =
+19 : Integer Value :5
+21 : Reserved Word : print
+21 : Punctuation : Function Call : (
+21 : Identifier: fibonacci
+21 : Punctuation : Function Call : (
+21 : Identifier: n
+21 : Punctuation : )
+21 : Punctuation : )

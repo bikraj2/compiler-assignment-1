@@ -4,8 +4,11 @@ set float big;  # semicolon added
 func total_area ( [float] h, [float] b ; float)  # comment
 <
  float sum=0;
- loop (int i=0 ; i < 10 and i <  10 ; i=i+1) : 
-  < sum = sum+h[i]*b[i];>;
+ loop (int i=0 ; i < size[h]and i < size[b] ; i=i+1) : 
+  <
+  sum = sum+h[i]*b[i];
+ 
+ >;
 
   return sum;
 > 
