@@ -104,31 +104,30 @@ FINALLY_STMT : FINALLY COLON LEFT_ANGLE COMPOUND_STATEMENT RIGHT_ANGLE {$$= (cha
             |  { $$= (char *)malloc(2); sprintf($$,"");} 
             ;
  /* definition for the conditional statement with if else */
-IF_STATEMENT: LEFT_ANGLE BOOLEAN_EXP TERNARY COMPOUND_STATEMENT SEMI RIGHT_ANGLE {addToFile("CONDITIONAL_STATEMENT", 2);
-      $$= (char *)malloc(strlen("if()")+strlen($2)+strlen("{}")+ strlen($4)+1); 
-            sprintf($$, " if(%s){%s}", $2,$4); free($2);free($4);} ;
-ELSE_STATEMENT:LEFT_ANGLE BOOLEAN_EXP TERNARY COMPOUND_STATEMENT SEMI ELSE COLON COMPOUND_STATEMENT RIGHT_ANGLE
-                  {addToFile("CONDITIONAL_STATEMENT", 2);
-                  $$= (char *)malloc(strlen("if(){}")+strlen($2)+strlen("else{}")+ strlen($4) +strlen($8)+1); 
-            sprintf($$, " if(%s){%s} else {%s}", $2,$4,$8); free($2);free($4);free($8);} ;
-        ;
-
-EXP_LIST: BOOLEAN_EXP TERNARY COMPOUND_STATEMENT SEMI EXP_LIST  
-          {$$= (char *)malloc(strlen("if()")+strlen($1)+strlen("else{}")+ strlen($3) +strlen($5)+1); 
-            sprintf($$, "if(%s){%s}else%s", $1,$3,$5); free($1);free($3);free($5);} 
-            |  BOOLEAN_EXP TERNARY COMPOUND_STATEMENT SEMI
-            {$$= (char *)malloc(strlen("if(){}")+strlen($1)+ strlen($3) +1); 
-            sprintf($$, "if(%s){%s}%s", $1,$3); free($1);free($3);} ;
-ELSE_IF_STATEMENT: LEFT_ANGLE EXP_LIST ELSE COLON COMPOUND_STATEMENT RIGHT_ANGLE
-                      {addToFile("CONDITIONAL_STATEMENT", 2);
-                        $$= (char *)malloc(strlen($2)+strlen("else")+strlen("{}")+ strlen($5) +1); 
-            sprintf($$, "%selse{%s}", $2,$5); free($2);free($5);}  ;
-CONDITIONAL_STATEMENT :IF_STATEMENT {$$= (char *)malloc(strlen($1) +1); 
-            sprintf($$, "%s", $1);}  
-                        |ELSE_IF_STATEMENT {$$= (char *)malloc(strlen($1) +1); 
-            sprintf($$, "%s", $1); }  
-                        |ELSE_STATEMENT {$$= (char *)malloc(strlen($1) +1); 
-            sprintf($$, "%s", $1); }  ;
+IF_STATEMENT: BOOLEAN_EXP TERNARY COMPOUND_STATEMENT {addToFile("CONDITIONAL_STATEMENT", 2); 
+                        $$= (char *)malloc(strlen($1)+strlen("if(){}")+strlen($3)+1); 
+                        sprintf($$, "if(%s){%s}", $1,$3); 
+                        free($1);free($3);
+                        }
+ELSE_IF_STATEMENT: ELSE_IF_STATEMENT IF_STATEMENT {$$= (char *)malloc(strlen($1)+strlen("else")+strlen($2)+1); 
+                        sprintf($$, "%selse %s", $1,$2); 
+                        free($1);free($2);
+                        }
+                      | IF_STATEMENT {$$= (char *)malloc(strlen($1)+1); 
+                        sprintf($$, "%s", $1); 
+                        free($1);
+                        }
+ELSE_STATEMENT: ELSE COLON COMPOUND_STATEMENT
+{$$= (char *)malloc(strlen("else")+strlen("{}")+strlen($3)+1); sprintf($$, "else{%s}",$3); free($3);}
+            ;
+CONDITIONAL_STATEMENT : LEFT_ANGLE  IF_STATEMENT ELSE_STATEMENT RIGHT_ANGLE {$$= (char *)malloc(strlen($2)+strlen($3)+1); 
+            sprintf($$, "%s%s", $2,$3);  free($2); free($3);
+            }
+            | LEFT_ANGLE  IF_STATEMENT  RIGHT_ANGLE {$$= (char *)malloc(strlen($2)+1); 
+            sprintf($$, "%s", $2);  free($2); 
+            }
+            |LEFT_ANGLE  ELSE_IF_STATEMENT ELSE_STATEMENT  RIGHT_ANGLE LEFT_ANGLE  IF_STATEMENT ELSE_STATEMENT RIGHT_ANGLE {$$= (char *)malloc(strlen($2)+strlen($3)+1); 
+            sprintf($$, "%s%s", $2,$3);  free($2); free($3); };
 /* Print statement */
 PRINT_STATEMENT: PRINT LEFT_PAREN PRINTABLE RIGHT_PAREN {$$= (char *)malloc(strlen("cout<<endl")+strlen("<<")+strlen($3)+1); 
 sprintf($$, "cout<<%s<<endl;", $3); free($3); 
@@ -255,7 +254,7 @@ TYPE : SET_TYPE {$$ = (char *)malloc(strlen($1)+1); sprintf($$, "%s",$1); free($
             }
         ;     
 
-VAR_TYPE: EXPRESSION{$$ = (char *)malloc(strlen($1)+3); sprintf($$, " %s ",$1); free($1);} 
+VAR_TYPE: EXPRESSION {$$ = (char *)malloc(strlen($1)+3); sprintf($$, " %s ",$1); free($1);} 
 DEC_CONDITION: ASSIGN VAR_TYPE  {$$ = (char *)malloc(strlen(" = ")+strlen($2)+1); sprintf($$, " = %s",$2);free($2);}
              | { $$= (char *)malloc(2); sprintf($$,""); } 
              ;
@@ -278,7 +277,7 @@ ASSIGN_STATEMENT: VAR ASSIGN EXPRESSION {$$= (char *)malloc(strlen($1)+strlen(" 
 EXPRESSION_STMT : EXPRESSION SEMI {
                 $$ = (char *)malloc(strlen($1)+strlen(";\n")+1); 
                         sprintf($$, "%s;\n",$1); free($1);}
-EXPRESSION : BOOLEAN_EXP  {$$ = (char *)malloc(strlen($1)+1); sprintf($$, "%s",$1); free($1);} 
+EXPRESSION : BOOLEAN_EXP  {$$ = (char *)malloc(strlen($1)+1); sprintf($$, "%s",$1); free($1); printf("%s",$1);} 
            ;
 ARITHMETIC_EXP : ARITHMETIC_EXP ADD_OP  MUL_EXP  {$$= (char *)malloc(strlen($1)+strlen(" + ")+strlen($3)+1); 
                     sprintf($$, "%s + %s", $1,$3); free($1);free($3);}

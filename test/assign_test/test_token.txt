@@ -106,3 +106,111 @@
 19 : Identifier: b
 19 : Punctuation : )
 19 : Punctuation : )
+1 : Reserved Word : set
+1 : Type : int
+1 : Type : big
+2 : Reserved Word : set
+2 : Type : float
+2 : Type : big
+4 : Reserved Word : func
+4 : Identifier: total_area
+4 : Punctuation : Function Call : (
+4 : Punctuation : Access Operator : [
+4 : Type : float
+4 : Punctuation : ]
+4 : Identifier: h
+4 : Punctuation : ,
+4 : Punctuation : Access Operator : [
+4 : Type : float
+4 : Punctuation : ]
+4 : Identifier: b
+4 : Type : float
+4 : Punctuation : )
+5 : Punctuation : Comparison Operator : <
+6 : Type : float
+6 : Identifier: sum
+6 : Operator : =
+6 : Integer Value :0
+7 : Reserved Word : loop
+7 : Punctuation : Function Call : (
+7 : Type : int
+7 : Identifier: i
+7 : Operator : =
+7 : Integer Value :0
+7 : Identifier: i
+7 : Punctuation : Comparison Operator : <
+7 : Integer Value :10
+7 : Reserved Word : and
+7 : Identifier: i
+7 : Punctuation : Comparison Operator : <
+7 : Integer Value :10
+7 : Identifier: i
+7 : Operator : =
+7 : Identifier: i
+7 : Operator : +
+7 : Integer Value :1
+7 : Punctuation : )
+7 : Punctuation : :(Colon)
+8 : Punctuation : Comparison Operator : <
+8 : Identifier: sum
+8 : Operator : =
+8 : Identifier: sum
+8 : Operator : +
+8 : Identifier: h
+8 : Punctuation : Access Operator : [
+8 : Identifier: i
+8 : Punctuation : ]
+8 : Operator : *
+8 : Identifier: b
+8 : Punctuation : Access Operator : [
+8 : Identifier: i
+8 : Punctuation : ]
+8 : Punctuation : Comparison Operator : >
+10 : Reserved Word : return
+10 : Identifier: sum
+11 : Punctuation : Comparison Operator : >
+13 : Punctuation : Access Operator : [
+13 : Type : float
+13 : Punctuation : ]
+13 : Identifier: a
+13 : Punctuation : ,
+13 : Identifier: b
+14 : Identifier: a
+14 : Access Operator : <-
+14 : Punctuation : Access Operator : [
+14 : Float Value :0.5
+14 : Punctuation : ]
+14 : Identifier: b
+14 : Access Operator : <-
+14 : Punctuation : Access Operator : [
+14 : Integer Value :3
+14 : Punctuation : ]
+15 : Identifier: a
+15 : Access Operator : <-
+15 : Punctuation : Access Operator : [
+15 : Float Value :1.5
+15 : Punctuation : ]
+15 : Identifier: b
+15 : Access Operator : <-
+15 : Punctuation : Access Operator : [
+15 : Integer Value :2
+15 : Punctuation : ]
+16 : Identifier: a
+16 : Access Operator : <-
+16 : Punctuation : Access Operator : [
+16 : Float Value :2.5
+16 : Punctuation : ]
+16 : Identifier: b
+16 : Access Operator : <-
+16 : Punctuation : Access Operator : [
+16 : Integer Value :1
+16 : Punctuation : ]
+19 : Reserved Word : print
+19 : Punctuation : Function Call : (
+19 : Identifier: total_area
+19 : Punctuation : Function Call : (
+19 : Identifier: a
+19 : Punctuation : ,
+19 : Identifier: b
+19 : Punctuation : )
+19 : Punctuation : )

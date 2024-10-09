@@ -222,3 +222,54 @@
 8 : Identifier: status
 8 : Operator : =
 8 : Integer Value :1
+1 : Reserved Word : set
+1 : Type : int
+1 : Type : big
+4 : Reserved Word : func
+4 : Identifier: student_pass
+4 : Punctuation : Function Call : (
+4 : Type : int
+4 : Identifier: marks
+4 : Type : int
+4 : Punctuation : )
+4 : Punctuation : Comparison Operator : <
+5 : Type : int
+5 : Identifier: status
+7 : Punctuation : Comparison Operator : <
+8 : Identifier: marks
+8 : Punctuation : Comparison Operator : >
+8 : Integer Value :60
+8 : Ternary(IF) : ?
+8 : Identifier: status
+8 : Operator : =
+8 : Integer Value :1
+9 : Identifier: marks
+9 : Punctuation : Comparison Operator : >
+9 : Integer Value :70
+9 : Ternary(IF) : ?
+9 : Identifier: status
+9 : Operator : =
+9 : Integer Value :2
+10 : Identifier: marks
+10 : Punctuation : Comparison Operator : >
+10 : Integer Value :80
+10 : Ternary(IF) : ?
+10 : Identifier: status
+10 : Operator : =
+10 : Integer Value :3
+11 : Identifier: marks
+11 : Punctuation : Comparison Operator : >
+11 : Integer Value :90
+11 : Ternary(IF) : ?
+11 : Identifier: status
+11 : Operator : =
+11 : Integer Value :4
+12 : Reserved Word : else
+12 : Punctuation : :(Colon)
+12 : Identifier: status
+12 : Operator : =
+12 : Integer Value :0
+13 : Punctuation : Comparison Operator : >
+14 : Reserved Word : return
+14 : Identifier: status
+15 : Punctuation : Comparison Operator : >

@@ -4,11 +4,11 @@
 using namespace std;
 double total_area(vector<double> h, vector<double> b) {
   double sum = 0;
-  for (long long i = 0; i < 10 and i < 10;) {
-    sum = sum + h[i] * b[i];
+  for (long long i = 0;;) {
+    sum = sum + h.at(i) * b.at(i);
 
     i = i + 1;
-    if (!(i < 10 and i < 10)) {
+    if (!()) {
     }
   };
   return sum;

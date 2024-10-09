@@ -18,7 +18,7 @@ long long fibonacci(long long n) {
   return b;
 }
 int main() {
-  long long n = 10;
+  long long n = 5;
   cout << fibonacci(n) << endl;
   return 1;
 }
