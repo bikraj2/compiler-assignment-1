@@ -1,28 +1,28 @@
 set int big;
 
 
-func student_pass_status ( int marks ; int) <
+func student_pass_status ( int student_marks ; int) <
     int status;
     <
-    marks >60 ? status=1;
+    student_marks >60 ? status=1;
     <
-    marks >65 ? status=2;
+    student_marks >65 ? status=2;
     <
-    marks >70 ? status=3;
+    student_marks >70 ? status=3;
     else: status=0;
     >
     else: status=0;
     <
-    marks >75 ? status=4;
+    student_marks >75 ? status=4;
     <
-    marks >80 ? status=5;
+    student_marks >80 ? status=5;
     else: status=0;
     >
     else: status=0;
     <
-    marks >85 ? status=6;
+    student_marks >85 ? status=6;
     <
-    marks >90 ? 7;
+    student_marks >90 ? 7;
     else: status=0;
     >
     else: status=0;

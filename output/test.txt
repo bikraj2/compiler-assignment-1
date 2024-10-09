@@ -1,20 +1,19 @@
 set int big;
 set float big;  # semicolon added
 
-func total_area ( [float] h, [int] b ; float)  # comment
+func total_area ( [float] h, [float] b ; float)  # comment
 <
  float sum=0;
  loop (int i=0 ; i < 10 and i <  10 ; i=i+1) : 
-  < sum = sum+h[i]*b[i]; >;
+  < sum = sum+h[i]*b[i];>
+  finally:< print(i);>;
   return sum;
 > 
  
-[float] h, b;
+[float] a, b;
 a<-[0.5]; b<-[3];    # previously incorrect bracket a<-(0.5) was written
 a<-[1.5]; b<-[2];
 a<-[2.5]; b<-[1];
 
-vect->[b]; [a + b] ->vect;
-[float] h, b;
-[]<-vect; vect->[];
-print( total_area(h,b) );
+
+print( total_area(a,b) );
